@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 class Game
@@ -12,17 +12,35 @@ class Game
 
     Texture background = Engine.LoadTexture("background.png");
     Texture runner = Engine.LoadTexture("runner.png");
+    Texture coin = Engine.LoadTexture("coin1.png");
 
     Vector2 runnerPosition = new Vector2(0, Resolution.Y - 70);
     Vector2 runnerVelocity = new Vector2(0, 0);
 
+    Vector2[] coinPos = new Vector2[5];
+    Vector2 coinVel = new Vector2(-0.5f, 0);
+
     public Game()
     {
+        for(int i = 0; i < coinPos.Length; i++)
+        {
+            coinPos[i] = new Vector2(200 + i * 25, 100);
+        }
     }
 
     public void Update()
     {
         Engine.DrawTexture(background, Vector2.Zero);
+
+        //coin position and movement
+        for(int x =0; x< coinPos.Length; x++)
+        {
+            Engine.DrawTexture(coin, coinPos[x]);
+        }
+        for (int x = 0; x < coinPos.Length; x++)
+        {
+            coinPos[x] += coinVel;
+        }
 
         runnerPosition.X += runnerVelocity.X * Engine.TimeDelta;
         runnerPosition.Y += runnerVelocity.Y * Engine.TimeDelta;
