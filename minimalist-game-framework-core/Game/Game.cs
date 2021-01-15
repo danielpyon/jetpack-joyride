@@ -8,7 +8,7 @@ class Game
 
     static readonly float gravity = 300.0f;
 
-    bool onGround = false;
+    float jetpackAcceleration = 0.0f;
 
     Texture background = Engine.LoadTexture("background.png");
     Texture runner = Engine.LoadTexture("runner.png");
@@ -27,17 +27,19 @@ class Game
         runnerPosition.X += runnerVelocity.X * Engine.TimeDelta;
         runnerPosition.Y += runnerVelocity.Y * Engine.TimeDelta;
         runnerVelocity.Y += gravity * Engine.TimeDelta;
+        runnerVelocity.Y -= jetpackAcceleration * Engine.TimeDelta;
 
         if (Engine.GetKeyDown(Key.Space))
         {
-            if (onGround)
-            {
-                runnerVelocity.Y = -300.0f;
-                onGround = false;
-            }
+            runnerVelocity.Y = -300.0f;
+        }
+        else if (Engine.GetKeyHeld(Key.Space))
+        {
+            jetpackAcceleration += 4.1f;
         }
         else
         {
+            jetpackAcceleration = 0.0f;
             if (runnerVelocity.Y < -200.0f)
             {
                 runnerVelocity.Y = -200.0f;
@@ -49,7 +51,12 @@ class Game
             // If the runner is on the ground
             runnerPosition.Y = Resolution.Y - 70;
             runnerVelocity.Y = 0;
-            onGround = true;
+        }
+
+        if (runnerPosition.Y < 0)
+        {
+            runnerPosition.Y = 0;
+            jetpackAcceleration = 0;
         }
 
         Engine.DrawTexture(runner, runnerPosition);
