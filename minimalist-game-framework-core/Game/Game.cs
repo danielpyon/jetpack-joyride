@@ -13,7 +13,7 @@ class Game
     Texture background = Engine.LoadTexture("background.png");
     Texture runner = Engine.LoadTexture("runner.png");
 
-    Vector2 runnerPosition = new Vector2(0, Resolution.Y - 70);
+    Vector2 runnerPosition = new Vector2(Resolution.X / 6, Resolution.Y - 70);
     Vector2 runnerVelocity = new Vector2(0, 0);
 
     public Game()
@@ -26,8 +26,20 @@ class Game
 
         runnerPosition.X += runnerVelocity.X * Engine.TimeDelta;
         runnerPosition.Y += runnerVelocity.Y * Engine.TimeDelta;
+        
         runnerVelocity.Y += gravity * Engine.TimeDelta;
         runnerVelocity.Y -= jetpackAcceleration * Engine.TimeDelta;
+
+        bool leftHeld = Engine.GetKeyHeld(Key.Left);
+        bool rightHeld = Engine.GetKeyHeld(Key.Right);
+        if (leftHeld || rightHeld)
+        {
+            runnerVelocity.X = leftHeld ? -300.0f : 300.0f;
+        }
+        else
+        {
+            runnerVelocity.X = 0;
+        }
 
         if (Engine.GetKeyHeld(Key.Space))
         {
