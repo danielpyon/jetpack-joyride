@@ -6,7 +6,7 @@ class Game
     public static readonly string Title = "Jetpack Joyride";
     public static readonly Vector2 Resolution = new Vector2(640, 480);
 
-    static readonly float gravity = 300.0f;
+    static readonly float gravity = 650.0f;
 
     float jetpackAcceleration = 0.0f;
 
@@ -29,12 +29,9 @@ class Game
         runnerVelocity.Y += gravity * Engine.TimeDelta;
         runnerVelocity.Y -= jetpackAcceleration * Engine.TimeDelta;
 
-        if (Engine.GetKeyDown(Key.Space))
+        if (Engine.GetKeyHeld(Key.Space))
         {
             runnerVelocity.Y = -300.0f;
-        }
-        else if (Engine.GetKeyHeld(Key.Space))
-        {
             jetpackAcceleration += 4.1f;
         }
         else
@@ -56,6 +53,7 @@ class Game
         if (runnerPosition.Y < 0)
         {
             runnerPosition.Y = 0;
+            runnerVelocity /= 2;
             jetpackAcceleration = 0;
         }
 
