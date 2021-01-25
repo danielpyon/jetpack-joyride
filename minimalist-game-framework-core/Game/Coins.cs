@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-class Coins : Sprite
+class Coins : Renderable
 {
     private Texture texture = Engine.LoadTexture("coin1.png");
     private Coin[] coins;

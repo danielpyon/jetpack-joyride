@@ -2,27 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 
-class Coin : Renderable
+class Background : Renderable
 {
-    private Texture texture;
-
-    public Coin(Texture texture)
-    {
-        this.texture = texture;
-    }
+    private Texture texture = Engine.LoadTexture("background.png");
 
     public void HandleInput()
     {
-
+        
     }
 
     public void Move()
     {
-
+        
     }
 
     public void Render(Camera camera)
     {
-
+        Engine.DrawTexture(texture, Vector2.Zero);
     }
 }

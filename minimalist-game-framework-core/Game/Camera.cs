@@ -4,15 +4,23 @@ using System.Text;
 
 class Camera
 {
-    public int X
+    public Camera()
+    {
+    }
+
+    public float X
     {
         get;
         set;
     }
 
-    public int Y
+    public float Y
     {
         get;
         set;
+    }
+
+    public void Update()
+    {
     }
 }

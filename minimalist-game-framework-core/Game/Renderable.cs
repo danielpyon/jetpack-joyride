@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-interface Sprite
+interface Renderable
 {
     /// <summary>
     /// Update the Sprite from user input.

@@ -6,10 +6,9 @@ class Game
     public static readonly string Title = Globals.TITLE;
     public static readonly Vector2 Resolution = new Vector2(Globals.WIDTH, Globals.HEIGHT);
 
-    Character character = new Character();
+    Renderable character = new Character();
+    Renderable background = new Background()
     Camera camera = new Camera();
-
-    Texture background = Engine.LoadTexture("background.png");
 
     public Game()
     {
@@ -17,10 +16,16 @@ class Game
 
     public void Update()
     {
-        Engine.DrawTexture(background, Vector2.Zero);
-        
+        // Handle Input
+        background.HandleInput();
         character.HandleInput();
+
+        // Movement
+        background.Move();
         character.Move();
+
+        // Render
+        background.Render(camera);
         character.Render(camera);
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-class Character : Sprite
+class Character : Renderable
 {
     // Texture for the character
     private Texture texture = Engine.LoadTexture("runner.png");
@@ -15,6 +15,22 @@ class Character : Sprite
     private Vector2 position = new Vector2(Globals.WIDTH / 6, Globals.HEIGHT - 70);
     private Vector2 velocity = new Vector2(0, 0);
     private float acceleration = 0.0f;
+
+    public float X
+    {
+        get
+        {
+            return position.X;
+        }
+    }
+
+    public float Y
+    {
+        get
+        {
+            return position.Y;
+        }
+    }
 
     public void HandleInput()
     {
