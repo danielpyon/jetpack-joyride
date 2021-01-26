@@ -24,8 +24,9 @@ class Camera
 
     public void CenterOnCharacter(Character c)
     {
-        X = c.X - Globals.WIDTH / 2;
-        Y = c.Y - Globals.HEIGHT / 2;
+        X = c.X - Globals.WIDTH / 2 + c.Width / 2;
+        // Y = c.Y - Globals.HEIGHT / 2 + c.Height / 2;
+        Y = 0;
     }
 
     public void Move(float XOffset, float YOffset)

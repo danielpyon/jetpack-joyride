@@ -12,7 +12,7 @@ class Character : Renderable
     private static readonly float horizontalSpeed = 300.0f;
 
     // Position, velocity, acceleration
-    private Vector2 position = new Vector2(Globals.WIDTH / 6, Globals.HEIGHT - 70);
+    private Vector2 position = new Vector2(0, Globals.HEIGHT);
     private Vector2 velocity = new Vector2(0, 0);
     private float acceleration = 0.0f;
 
@@ -33,6 +33,22 @@ class Character : Renderable
         get
         {
             return position.Y;
+        }
+    }
+
+    public int Width
+    {
+        get
+        {
+            return texture.Width;
+        }
+    }
+
+    public int Height
+    {
+        get
+        {
+            return texture.Height;
         }
     }
 
@@ -79,10 +95,10 @@ class Character : Renderable
         velocity.Y -= acceleration * Engine.TimeDelta;
 
         // Handle edge cases
-        if (position.Y > Globals.HEIGHT - 70)
+        if (position.Y > Globals.HEIGHT)
         {
             // If the runner goes under the ground, move him to ground level
-            position.Y = Globals.HEIGHT - 70;
+            position.Y = Globals.HEIGHT;
             velocity.Y = 0;
         }
 
@@ -98,6 +114,7 @@ class Character : Renderable
 
     public void Render(Camera camera)
     {
+        Console.WriteLine(position.Y);
         Vector2 renderPosition = new Vector2();
         renderPosition.X = position.X - camera.X;
         renderPosition.Y = position.Y - camera.Y;
