@@ -57,6 +57,7 @@ class Character : Renderable
         bool leftHeld = Engine.GetKeyHeld(Key.Left);
         bool rightHeld = Engine.GetKeyHeld(Key.Right);
         bool spaceHeld = Engine.GetKeyHeld(Key.Space);
+        bool spacePressed = Engine.GetKeyDown(Key.Space);
 
         // Horizontal movement
         if (leftHeld || rightHeld)
@@ -69,18 +70,17 @@ class Character : Renderable
         }
 
         // Vertical movement
-        if (spaceHeld)
+        if (spacePressed)
         {
-            velocity.Y = -300.0f;
-            acceleration += 4.1f;
+            velocity.Y = -600.0f;
+        }
+        else if (spaceHeld)
+        {
+            acceleration = 700.0f;
         }
         else
         {
-            acceleration = 0.0f;
-            if (velocity.Y < -200.0f)
-            {
-                velocity.Y = -200.0f;
-            }
+            acceleration = -400.0f;
         }
     }
 
@@ -114,10 +114,10 @@ class Character : Renderable
 
     public void Render(Camera camera)
     {
-        Console.WriteLine(position.Y);
         Vector2 renderPosition = new Vector2();
         renderPosition.X = position.X - camera.X;
         renderPosition.Y = position.Y - camera.Y;
         Engine.DrawTexture(texture, renderPosition);
+        Console.WriteLine(acceleration);
     }
 }

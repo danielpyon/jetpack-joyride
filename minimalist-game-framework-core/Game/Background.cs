@@ -4,7 +4,12 @@ using System.Text;
 
 class Background : Renderable
 {
-    private Texture texture = Engine.LoadTexture("background.png");
+    private Texture texture;
+
+    public Background(String filename)
+    {
+        texture = Engine.LoadTexture(filename);
+    }
 
     public void HandleInput()
     {
