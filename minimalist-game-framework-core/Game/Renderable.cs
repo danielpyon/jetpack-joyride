@@ -12,7 +12,7 @@ interface Renderable
     /// <summary>
     /// Update the position of the Sprite.
     /// </summary>
-    void Move();
+    void Move(Camera camera);
 
     /// <summary>
     /// Render the Sprite to the screen relative to the camera.

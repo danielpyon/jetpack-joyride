@@ -7,8 +7,8 @@ class Game
     public static readonly Vector2 Resolution = new Vector2(Globals.WIDTH, Globals.HEIGHT);
 
     Renderable character = new Character();
-    Renderable background = new Background()
-    Camera camera = new Camera();
+    Renderable background = new Background();
+    Camera camera = new Camera(0, 0);
 
     public Game()
     {
@@ -21,8 +21,8 @@ class Game
         character.HandleInput();
 
         // Movement
-        background.Move();
-        character.Move();
+        background.Move(camera);
+        character.Move(camera);
 
         // Render
         background.Render(camera);

@@ -16,7 +16,7 @@ class Coin : Renderable
 
     }
 
-    public void Move()
+    public void Move(Camera Camera)
     {
 
     }

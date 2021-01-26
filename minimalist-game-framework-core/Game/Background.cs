@@ -11,13 +11,16 @@ class Background : Renderable
         
     }
 
-    public void Move()
+    public void Move(Camera camera)
     {
-        
+
     }
 
     public void Render(Camera camera)
     {
-        Engine.DrawTexture(texture, Vector2.Zero);
+        Vector2 position = new Vector2();
+        position.X = -camera.X;
+        position.Y = -camera.Y;
+        Engine.DrawTexture(texture, position);
     }
 }

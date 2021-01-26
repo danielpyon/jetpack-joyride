@@ -16,6 +16,10 @@ class Character : Renderable
     private Vector2 velocity = new Vector2(0, 0);
     private float acceleration = 0.0f;
 
+    public Character()
+    {
+    }
+
     public float X
     {
         get
@@ -64,7 +68,7 @@ class Character : Renderable
         }
     }
 
-    public void Move()
+    public void Move(Camera camera)
     {
         // Update position
         position.X += velocity.X * Engine.TimeDelta;
@@ -88,10 +92,15 @@ class Character : Renderable
             velocity /= 2;
             acceleration = 0;
         }
+
+        camera.CenterOnCharacter(this);
     }
 
     public void Render(Camera camera)
     {
-        Engine.DrawTexture(texture, position);
+        Vector2 renderPosition = new Vector2();
+        renderPosition.X = position.X - camera.X;
+        renderPosition.Y = position.Y - camera.Y;
+        Engine.DrawTexture(texture, renderPosition);
     }
 }
