@@ -88,13 +88,15 @@ class Character : Renderable
         // Update velocity
         velocity.Y += gravity * Engine.TimeDelta;
         velocity.Y -= acceleration * Engine.TimeDelta;
-        //reset acceleration
+
+        // Reset acceleration
         acceleration = 0;
+        
         // Handle edge cases
         if (position.Y > Globals.HEIGHT - 30)
         {
             // If the runner goes under the ground, move him to ground level
-            position.Y = Globals.HEIGHT-30;
+            position.Y = Globals.HEIGHT - 30;
             velocity.Y = 0;
         }
 
