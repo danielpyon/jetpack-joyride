@@ -9,7 +9,7 @@ class Character : Renderable
     
     // Movement constants
     private static readonly float gravity = 650.0f;
-    private static readonly float horizontalSpeed = 300.0f;
+    private static readonly float horizontalSpeed = 500.0f;
 
     // Position, velocity, acceleration
     private Vector2 position;
@@ -19,6 +19,7 @@ class Character : Renderable
     public Character()
     {
         position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
+        Console.WriteLine("Init pos: " + position);
     }
 
     public float X
@@ -73,7 +74,6 @@ class Character : Renderable
         // Vertical movement
         if (spaceHeld)
         {
-            Console.WriteLine("SPACE");
             acceleration = gravity * 3.0f; //this felt the best for the thrust/weight ratio
         }
 
@@ -88,13 +88,15 @@ class Character : Renderable
         // Update velocity
         velocity.Y += gravity * Engine.TimeDelta;
         velocity.Y -= acceleration * Engine.TimeDelta;
-        //reset acceleration
+
+        // Reset acceleration
         acceleration = 0;
+        
         // Handle edge cases
         if (position.Y > Globals.HEIGHT - 30)
         {
             // If the runner goes under the ground, move him to ground level
-            position.Y = Globals.HEIGHT-30;
+            position.Y = Globals.HEIGHT - 30;
             velocity.Y = 0;
         }
 
@@ -122,6 +124,5 @@ class Character : Renderable
             adjustedCoordinates.Y - camera.Y); 
         
         Engine.DrawTexture(texture, renderPosition);
-        Console.WriteLine(position);
     }
 }
