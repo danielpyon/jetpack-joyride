@@ -12,12 +12,13 @@ class Character : Renderable
     private static readonly float horizontalSpeed = 300.0f;
 
     // Position, velocity, acceleration
-    private Vector2 position = new Vector2(Globals.WIDTH / 6, Globals.HEIGHT - 70);
+    private Vector2 position;
     private Vector2 velocity = new Vector2(0, 0);
     private float acceleration = 0.0f;
 
     public Character()
     {
+        position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
     }
 
     public float X
@@ -36,11 +37,28 @@ class Character : Renderable
         }
     }
 
+    public int Width
+    {
+        get
+        {
+            return texture.Width;
+        }
+    }
+
+    public int Height
+    {
+        get
+        {
+            return texture.Height;
+        }
+    }
+
     public void HandleInput()
     {
         bool leftHeld = Engine.GetKeyHeld(Key.Left);
         bool rightHeld = Engine.GetKeyHeld(Key.Right);
         bool spaceHeld = Engine.GetKeyHeld(Key.Space);
+        bool spacePressed = Engine.GetKeyDown(Key.Space);
 
         // Horizontal movement
         if (leftHeld || rightHeld)
@@ -53,18 +71,17 @@ class Character : Renderable
         }
 
         // Vertical movement
-        if (spaceHeld)
+        if (spacePressed)
         {
-            velocity.Y = -300.0f;
-            acceleration += 4.1f;
+            velocity.Y = -600.0f;
+        }
+        else if (spaceHeld)
+        {
+            acceleration = 700.0f;
         }
         else
         {
-            acceleration = 0.0f;
-            if (velocity.Y < -200.0f)
-            {
-                velocity.Y = -200.0f;
-            }
+            acceleration = -400.0f;
         }
     }
 
@@ -79,16 +96,16 @@ class Character : Renderable
         velocity.Y -= acceleration * Engine.TimeDelta;
 
         // Handle edge cases
-        if (position.Y > Globals.HEIGHT - 70)
+        if (position.Y > Globals.HEIGHT)
         {
             // If the runner goes under the ground, move him to ground level
-            position.Y = Globals.HEIGHT - 70;
+            position.Y = Globals.HEIGHT;
             velocity.Y = 0;
         }
 
-        if (position.Y < 0)
+        if (position.Y < Height)
         {
-            position.Y = 0;
+            position.Y = Height;
             velocity /= 2;
             acceleration = 0;
         }
@@ -96,11 +113,20 @@ class Character : Renderable
         camera.CenterOnCharacter(this);
     }
 
+    private Vector2 AdjustedCoordinates()
+    {
+        // Must subtract height because otherwise, the "zero" y-level is the top of the sprite
+        return new Vector2(position.X, position.Y - Height);
+    }
+
     public void Render(Camera camera)
     {
-        Vector2 renderPosition = new Vector2();
-        renderPosition.X = position.X - camera.X;
-        renderPosition.Y = position.Y - camera.Y;
+        Vector2 adjustedCoordinates = AdjustedCoordinates();
+        Vector2 renderPosition = new Vector2(
+            adjustedCoordinates.X - camera.X,
+            adjustedCoordinates.Y - camera.Y); 
+        
         Engine.DrawTexture(texture, renderPosition);
+        Console.WriteLine(position);
     }
 }

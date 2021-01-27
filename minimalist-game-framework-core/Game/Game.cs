@@ -6,26 +6,29 @@ class Game
     public static readonly string Title = Globals.TITLE;
     public static readonly Vector2 Resolution = new Vector2(Globals.WIDTH, Globals.HEIGHT);
 
-    Renderable character = new Character();
-    Renderable background = new Background();
-    Camera camera = new Camera(0, 0);
+    Renderable character;
+    Renderable backgroundPanel;
+    Camera camera;
 
     public Game()
     {
+        character = new Character();
+        backgroundPanel = new BackgroundPanel((Character) character);
+        camera = new Camera(0, 0);
     }
 
     public void Update()
     {
         // Handle Input
-        background.HandleInput();
+        backgroundPanel.HandleInput();
         character.HandleInput();
 
         // Movement
-        background.Move(camera);
+        backgroundPanel.Move(camera);
         character.Move(camera);
 
         // Render
-        background.Render(camera);
+        backgroundPanel.Render(camera);
         character.Render(camera);
     }
 }
