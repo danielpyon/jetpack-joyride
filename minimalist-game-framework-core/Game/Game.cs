@@ -10,11 +10,19 @@ class Game
     Renderable backgroundPanel;
     Camera camera;
 
+    Sound menuMusic;
+    Sound gameMusic;
+
     public Game()
     {
         character = new Character();
         backgroundPanel = new BackgroundPanel((Character) character);
         camera = new Camera(0, 0);
+        
+        menuMusic = Engine.LoadSound("menu.wav");
+        gameMusic = Engine.LoadSound("game.wav");
+
+        Engine.PlaySound(gameMusic, true, 4.0f);
     }
 
     public void Update()
