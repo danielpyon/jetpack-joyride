@@ -13,9 +13,16 @@ class BackgroundPanel : Renderable
         "background2.png",
     };
 
+    // The offset for how early or late the new backgrounds get generated
+    // The bigger the offset, the earlier the backgrounds get rendered
+    // Generally, the bigger the offset, the smoother the gameplay
+    private const float OFFSET = 500.0f;
+
     private Character character;
     private int backgroundIndex = 0;
     private float backgroundX = 0;
+
+    private bool isEndCurrentlyVisible = false;
 
     public BackgroundPanel(Character character)
     {
@@ -23,9 +30,7 @@ class BackgroundPanel : Renderable
 
         backgrounds = new List<Background>();
 
-        AddBackground();
-        AddBackground();
-        AddBackground();
+        // The initial background
         AddBackground();
     }
 
@@ -85,7 +90,7 @@ class BackgroundPanel : Renderable
         // The max X-coordinate that the camera sees
         float cameraEdge = characterX + 5 * screenWidth / 6;
 
-        return cameraEdge >= backgroundEdge;
+        return cameraEdge + OFFSET >= backgroundEdge;
     }
 
     /// <summary>
@@ -114,7 +119,16 @@ class BackgroundPanel : Renderable
     /// </summary>
     private void RemoveInvisibleBackgrounds()
     {
-        backgrounds.RemoveAll(background => !IsBackgroundVisible(background));
+        int numberOfBackgrounds = backgrounds.Count;
+
+        // If there are at least 4 backgrounds, we want to remove everything but the last two
+        if (numberOfBackgrounds >= 4)
+        {
+            backgrounds.RemoveRange(0, 2);
+        }
+
+        // Below is a buggy weird way (don't delete it, just don't use it)
+        // backgrounds.RemoveAll(background => !IsBackgroundVisible(background));
     }
 
     public void HandleInput()
@@ -129,9 +143,17 @@ class BackgroundPanel : Renderable
 
     public void Render(Camera camera)
     {
-        if (IsEndVisible())
+        bool endVisible =  IsEndVisible();
+
+        if (endVisible && !isEndCurrentlyVisible)
         {
+            isEndCurrentlyVisible = true;
             AddBackground();
+        }
+
+        if (!endVisible && isEndCurrentlyVisible)
+        {
+            isEndCurrentlyVisible = false;
         }
 
         RemoveInvisibleBackgrounds();
