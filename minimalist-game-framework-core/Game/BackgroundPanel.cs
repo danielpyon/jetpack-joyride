@@ -4,7 +4,7 @@ using System.Text;
 
 class BackgroundPanel : Renderable
 {
-    private List<Background> backgrounds; // Background objects to be rendered
+    private List<Background> backgrounds; // Background objects to be rendered (List<> retains insertion order)
 
     // Backgrounds will render in this order (this is constant)
     private String[] filenames =
@@ -26,11 +26,13 @@ class BackgroundPanel : Renderable
 
         backgrounds = new List<Background>();
 
-        AddNextBackground();
-        AddNextBackground();
+        AddBackground();
+        AddBackground();
+        AddBackground();
+        AddBackground();
     }
 
-    private void AddNextBackground()
+    private void AddBackground()
     {
         backgrounds.Add(new Background(filenames[backgroundIndex++], backgroundX));
         backgroundIndex %= filenames.Length;
@@ -42,6 +44,16 @@ class BackgroundPanel : Renderable
         foreach (Background background in backgrounds) {
             background.Render(camera);
         }
+    }
+
+    private bool IsEndVisible()
+    {
+        return true;
+    }
+
+    private void RemoveInvisibleBackgrounds()
+    {
+
     }
 
     public void HandleInput()
