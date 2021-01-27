@@ -5,12 +5,23 @@ using System.Text;
 class Background : Renderable
 {
     private Texture texture;
-    private float x; // where on the map it is (horizontally)
 
-    public Background(String filename, float x)
+    // Where the right edge is on the map (horizontally)
+    public float MaxX
+    {
+        get;
+    }
+
+    public float MinX
+    {
+        get;
+    }
+
+    public Background(String filename, float MinX)
     {
         texture = Engine.LoadTexture(filename);
-        this.x = x;
+        this.MinX = MinX;
+        this.MaxX = MinX + Width;
     }
 
     public int Height
@@ -42,7 +53,7 @@ class Background : Renderable
     public void Render(Camera camera)
     {
         Vector2 position = new Vector2();
-        position.X = x - camera.X;
+        position.X = MinX - camera.X;
         position.Y = 0 - camera.Y;
         Engine.DrawTexture(texture, position);
     }

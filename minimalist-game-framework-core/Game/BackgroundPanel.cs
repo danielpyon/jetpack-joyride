@@ -11,18 +11,15 @@ class BackgroundPanel : Renderable
     {
         "background1.png",
         "background2.png",
-        "background3.png"
     };
 
     private Character character;
     private int backgroundIndex = 0;
     private float backgroundX = 0;
-    private int backgroundWidth; // Background image width (pixels)
 
     public BackgroundPanel(Character character)
     {
         this.character = character;
-        backgroundWidth = new Background(filenames[0], 0).Width;
 
         backgrounds = new List<Background>();
 
@@ -34,7 +31,10 @@ class BackgroundPanel : Renderable
 
     private void AddBackground()
     {
-        backgrounds.Add(new Background(filenames[backgroundIndex++], backgroundX));
+        Background background = new Background(filenames[backgroundIndex++], backgroundX);
+        float backgroundWidth = background.Width;
+
+        backgrounds.Add(background);
         backgroundIndex %= filenames.Length;
         backgroundX += backgroundWidth; // Shift the background image every time you add one
     }
@@ -46,14 +46,46 @@ class BackgroundPanel : Renderable
         }
     }
 
+    /// <summary>
+    /// Returns the background that the character is currently on
+    /// </summary>
+    private Background GetCurrentBackground()
+    {
+        foreach (Background background in backgrounds)
+        {
+            float minX = background.MinX;
+            float maxX = background.MaxX;
+            float characterX = character.X;
+
+            if (minX <= characterX && characterX <= maxX)
+            {
+                return background;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Returns whether the end of the background is currently visible from the camera
+    /// </summary>
+    /// <returns>True if the camera can see the edge of the current background, false otherwise</returns>
     private bool IsEndVisible()
     {
-        return true;
+        float characterX = character.X;
+        float characterWidth = character.Width;
+        float screenWidth = Globals.WIDTH;
+        float backgroundEdge = GetCurrentBackground().MaxX; // The max X-coordinate for the current background
+
+        // The max X-coordinate that the camera sees
+        float cameraEdge = characterX + 5 * screenWidth / 6;
+
+        return cameraEdge > backgroundEdge;
     }
 
     private void RemoveInvisibleBackgrounds()
     {
-
+        
     }
 
     public void HandleInput()
@@ -63,12 +95,20 @@ class BackgroundPanel : Renderable
 
     public void Move(Camera camera)
     {
-
+        
     }
 
     public void Render(Camera camera)
     {
+        /*
+         * if end is visible:
+         *      addbackground()
+         * remove invisible backgrounds()
+         * render all backgrounds()
+         */
+
         RenderAllBackgrounds(camera);
+        Console.WriteLine("Is the end visible? " + IsEndVisible().ToString());
     }
 
 }

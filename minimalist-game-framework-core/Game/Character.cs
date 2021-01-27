@@ -73,7 +73,6 @@ class Character : Renderable
         // Vertical movement
         if (spaceHeld)
         {
-            Console.WriteLine("SPACE");
             acceleration = gravity * 3.0f; //this felt the best for the thrust/weight ratio
         }
 
@@ -124,6 +123,5 @@ class Character : Renderable
             adjustedCoordinates.Y - camera.Y); 
         
         Engine.DrawTexture(texture, renderPosition);
-        Console.WriteLine(position);
     }
 }
