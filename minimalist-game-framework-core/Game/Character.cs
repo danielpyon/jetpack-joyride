@@ -74,7 +74,7 @@ class Character : Renderable
         if (spaceHeld)
         {
             Console.WriteLine("SPACE");
-            acceleration = gravity * 2.0f; //this felt the best for the thrust/weight ratio
+            acceleration = gravity * 3.0f; //this felt the best for the thrust/weight ratio
         }
 
     }
