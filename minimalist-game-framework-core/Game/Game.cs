@@ -8,6 +8,9 @@ class Game
 
     Renderable character;
     Renderable backgroundPanel;
+
+    List<Renderable> Renderables;
+    
     Camera camera;
 
     Sound menuMusic;
@@ -17,6 +20,10 @@ class Game
     {
         character = new Character();
         backgroundPanel = new BackgroundPanel((Character) character);
+        
+        Renderables = new List<Renderable>();
+        Renderables.AddRange(new List<Renderable>() { backgroundPanel, character });
+
         camera = new Camera(0, 0);
         
         menuMusic = Engine.LoadSound("menu.wav");
@@ -28,15 +35,21 @@ class Game
     public void Update()
     {
         // Handle Input
-        backgroundPanel.HandleInput();
-        character.HandleInput();
+        Renderables.ForEach(delegate (Renderable r)
+        {
+            r.HandleInput();
+        });
 
         // Movement
-        backgroundPanel.Move(camera);
-        character.Move(camera);
+        Renderables.ForEach(delegate (Renderable r)
+        {
+            r.Move(camera);
+        });
 
         // Render
-        backgroundPanel.Render(camera);
-        character.Render(camera);
+        Renderables.ForEach(delegate (Renderable r)
+        {
+            r.Render(camera);
+        });
     }
 }
