@@ -71,18 +71,12 @@ class Character : Renderable
         }
 
         // Vertical movement
-        if (spacePressed)
+        if (spaceHeld)
         {
-            velocity.Y = -600.0f;
+            Console.WriteLine("SPACE");
+            acceleration = gravity * 2.0f; //this felt the best for the thrust/weight ratio
         }
-        else if (spaceHeld)
-        {
-            acceleration = 700.0f;
-        }
-        else
-        {
-            acceleration = -400.0f;
-        }
+
     }
 
     public void Move(Camera camera)
@@ -94,12 +88,13 @@ class Character : Renderable
         // Update velocity
         velocity.Y += gravity * Engine.TimeDelta;
         velocity.Y -= acceleration * Engine.TimeDelta;
-
+        //reset acceleration
+        acceleration = 0;
         // Handle edge cases
-        if (position.Y > Globals.HEIGHT)
+        if (position.Y > Globals.HEIGHT - 30)
         {
             // If the runner goes under the ground, move him to ground level
-            position.Y = Globals.HEIGHT;
+            position.Y = Globals.HEIGHT-30;
             velocity.Y = 0;
         }
 
