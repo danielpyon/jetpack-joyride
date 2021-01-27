@@ -12,12 +12,13 @@ class Character : Renderable
     private static readonly float horizontalSpeed = 300.0f;
 
     // Position, velocity, acceleration
-    private Vector2 position = new Vector2(0, Globals.HEIGHT);
+    private Vector2 position;
     private Vector2 velocity = new Vector2(0, 0);
     private float acceleration = 0.0f;
 
     public Character()
     {
+        position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
     }
 
     public float X
@@ -102,9 +103,9 @@ class Character : Renderable
             velocity.Y = 0;
         }
 
-        if (position.Y < 0)
+        if (position.Y < Height)
         {
-            position.Y = 0;
+            position.Y = Height;
             velocity /= 2;
             acceleration = 0;
         }
@@ -112,12 +113,20 @@ class Character : Renderable
         camera.CenterOnCharacter(this);
     }
 
+    private Vector2 AdjustedCoordinates()
+    {
+        // Must subtract height because otherwise, the "zero" y-level is the top of the sprite
+        return new Vector2(position.X, position.Y - Height);
+    }
+
     public void Render(Camera camera)
     {
-        Vector2 renderPosition = new Vector2();
-        renderPosition.X = position.X - camera.X;
-        renderPosition.Y = position.Y - camera.Y;
+        Vector2 adjustedCoordinates = AdjustedCoordinates();
+        Vector2 renderPosition = new Vector2(
+            adjustedCoordinates.X - camera.X,
+            adjustedCoordinates.Y - camera.Y); 
+        
         Engine.DrawTexture(texture, renderPosition);
-        Console.WriteLine(acceleration);
+        Console.WriteLine(position);
     }
 }
