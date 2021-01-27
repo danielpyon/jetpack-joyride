@@ -19,6 +19,7 @@ class Character : Renderable
     public Character()
     {
         position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
+        Console.WriteLine("Init pos: " + position);
     }
 
     public float X

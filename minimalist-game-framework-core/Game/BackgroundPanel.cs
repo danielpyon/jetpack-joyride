@@ -72,20 +72,49 @@ class BackgroundPanel : Renderable
     /// <returns>True if the camera can see the edge of the current background, false otherwise</returns>
     private bool IsEndVisible()
     {
+        Background currentBackground = GetCurrentBackground();
+        if (currentBackground == null)
+        {
+            return true;
+        }
+
         float characterX = character.X;
-        float characterWidth = character.Width;
         float screenWidth = Globals.WIDTH;
-        float backgroundEdge = GetCurrentBackground().MaxX; // The max X-coordinate for the current background
+        float backgroundEdge = currentBackground.MaxX; // The max X-coordinate for the current background
 
         // The max X-coordinate that the camera sees
         float cameraEdge = characterX + 5 * screenWidth / 6;
 
-        return cameraEdge > backgroundEdge;
+        return cameraEdge >= backgroundEdge;
     }
 
+    /// <summary>
+    /// Returns whether the given background is visible
+    /// </summary>
+    /// <param name="background">The background object</param>
+    /// <returns>True if the background is visible, false otherwise</returns>
+    private bool IsBackgroundVisible(Background background)
+    {
+        if (background == null)
+        {
+            return false;
+        }
+
+        float characterX = character.X;
+        float characterWidth = character.Width;
+        float screenWidth = Globals.WIDTH;
+        float backgroundEdge = background.MinX;
+
+        float cameraEdge = characterX - screenWidth / 6 + characterWidth / 2;
+        return cameraEdge >= backgroundEdge;
+    }
+
+    /// <summary>
+    /// Removes all the backgrounds that are no longer visible
+    /// </summary>
     private void RemoveInvisibleBackgrounds()
     {
-        
+        backgrounds.RemoveAll(background => !IsBackgroundVisible(background));
     }
 
     public void HandleInput()
@@ -100,15 +129,14 @@ class BackgroundPanel : Renderable
 
     public void Render(Camera camera)
     {
-        /*
-         * if end is visible:
-         *      addbackground()
-         * remove invisible backgrounds()
-         * render all backgrounds()
-         */
+        if (IsEndVisible())
+        {
+            AddBackground();
+        }
+
+        RemoveInvisibleBackgrounds();
 
         RenderAllBackgrounds(camera);
-        Console.WriteLine("Is the end visible? " + IsEndVisible().ToString());
     }
 
 }
