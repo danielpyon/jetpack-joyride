@@ -9,7 +9,7 @@ class Character : Renderable
     
     // Movement constants
     private static readonly float gravity = 650.0f;
-    private static readonly float horizontalSpeed = 500.0f;
+    private static readonly float horizontalSpeed = 1000.0f;
 
     // Position, velocity, acceleration
     private Vector2 position;

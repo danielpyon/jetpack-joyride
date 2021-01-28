@@ -13,6 +13,9 @@ class BackgroundPanel : Renderable
         "background2.png",
     };
 
+    // Cached textures
+    private Texture[] textures;
+
     // The offset for how early or late the new backgrounds get generated
     // The bigger the offset, the earlier the backgrounds get rendered
     // Generally, the bigger the offset, the smoother the gameplay
@@ -27,16 +30,23 @@ class BackgroundPanel : Renderable
     public BackgroundPanel(Character character)
     {
         this.character = character;
-
+        textures = new Texture[filenames.Length];
+        for (int i = 0; i < filenames.Length; i++)
+        {
+            textures[i] = Engine.LoadTexture(filenames[i]);
+        }
+        
         backgrounds = new List<Background>();
-
+        
         // The initial background
         AddBackground();
     }
 
     private void AddBackground()
     {
-        Background background = new Background(filenames[backgroundIndex++], backgroundX);
+        Background background = new Background(filenames[backgroundIndex], backgroundX, textures[backgroundIndex]);
+        backgroundIndex++;
+
         float backgroundWidth = background.Width;
 
         backgrounds.Add(background);

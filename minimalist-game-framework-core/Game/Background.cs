@@ -17,11 +17,19 @@ class Background : Renderable
         get;
     }
 
-    public Background(String filename, float MinX)
+    public Background(String filename, float MinX, Texture texture = null)
     {
-        texture = Engine.LoadTexture(filename);
+        if (texture == null)
+        {
+            this.texture = Engine.LoadTexture(filename);
+        }
+        else
+        {
+            this.texture = texture;
+        }
         this.MinX = MinX;
         this.MaxX = MinX + Width;
+        this.texture = texture;
     }
 
     public int Height
