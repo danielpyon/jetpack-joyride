@@ -7,6 +7,7 @@ class Game
     public static readonly Vector2 Resolution = new Vector2(Globals.WIDTH, Globals.HEIGHT);
 
     Renderable character;
+    Renderable tm;
     Renderable backgroundPanel;
 
     List<Renderable> Renderables;
@@ -25,6 +26,7 @@ class Game
         Renderables.AddRange(new List<Renderable>() { backgroundPanel, character });
 
         camera = new Camera(0, 0);
+        tm = new TopMenu((Character) character);
         
         menuMusic = Engine.LoadSound("menu.wav");
         gameMusic = Engine.LoadSound("game.wav");
@@ -51,5 +53,9 @@ class Game
         {
             r.Render(camera);
         });
+
+        //distance
+        tm.HandleInput();
+        tm.Render(camera);
     }
 }
