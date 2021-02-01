@@ -22,7 +22,7 @@ class GameScene : Scene
         musicInstance = Engine.PlaySound(music, true, 4.0f);
     }
 
-    ~GameScene()
+    public override void CleanUp()
     {
         Engine.StopSound(musicInstance);
     }

@@ -19,6 +19,9 @@ class Game
 
     public static void UpdateScene()
     {
+        if (CurrentScene != null)
+            CurrentScene.CleanUp();
+
         if (CurrentScene == null)
         {
             CurrentScene = new TitleScene();

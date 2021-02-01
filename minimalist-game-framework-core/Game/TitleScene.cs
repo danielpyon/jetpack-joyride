@@ -18,7 +18,7 @@ class TitleScene : Scene
         musicInstance = Engine.PlaySound(music, true);
     }
 
-    ~TitleScene()
+    public override void CleanUp()
     {
         Engine.StopSound(musicInstance);
     }

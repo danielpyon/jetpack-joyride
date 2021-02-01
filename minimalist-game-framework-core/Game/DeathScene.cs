@@ -18,7 +18,7 @@ class DeathScene : Scene
         musicInstance = Engine.PlaySound(music, true);
     }
 
-    ~DeathScene()
+    public override void CleanUp()
     {
         Engine.StopSound(musicInstance);
     }

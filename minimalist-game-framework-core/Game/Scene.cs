@@ -36,4 +36,12 @@ class Scene
             r.Render(camera);
         });
     }
+
+    /// <summary>
+    /// Clean up anything after the scene is over (ex: stop the music)
+    /// </summary>
+    public virtual void CleanUp()
+    {
+
+    }
 }
