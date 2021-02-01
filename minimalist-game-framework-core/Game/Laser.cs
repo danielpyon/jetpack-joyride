@@ -7,17 +7,29 @@ class Laser : Renderable
     private Texture texture;
     private Vector2 position;
     private LaserType type;
+    private Character character;
 
-    public Laser(Texture texture, LaserType type, Vector2 position)
+    public Laser(Texture texture, LaserType type, Vector2 position, Character character)
     {
         this.texture = texture;
         this.position = position;
         this.type = type;
+        this.character = character;
+    }
+
+    private bool CollidingWithLaser()
+    {
+
+        return false;
     }
 
     public void HandleInput()
     {
+        if (CollidingWithLaser())
+        {
 
+        }
+        Console.WriteLine();
     }
 
     public void Move(Camera Camera)

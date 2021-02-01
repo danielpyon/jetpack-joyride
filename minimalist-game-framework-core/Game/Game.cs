@@ -6,28 +6,15 @@ class Game
     public static readonly string Title = Globals.TITLE;
     public static readonly Vector2 Resolution = new Vector2(Globals.WIDTH, Globals.HEIGHT);
 
-    Renderable character;
-    Renderable topMenu;
-    Renderable backgroundPanel;
-
-    List<Renderable> Renderables;
-    
-    Camera camera;
-
     Sound menuMusic;
     Sound gameMusic;
 
+    Scene gameScene;
+
     public Game()
     {
-        character = new Character();
-        backgroundPanel = new BackgroundPanel((Character) character);
-        topMenu = new TopMenu((Character) character);
+        gameScene = new GameScene();
 
-        Renderables = new List<Renderable>();
-        Renderables.AddRange(new List<Renderable>() { backgroundPanel, character, topMenu });
-
-        camera = new Camera(0, 0);
-        
         menuMusic = Engine.LoadSound("menu.wav");
         gameMusic = Engine.LoadSound("game.wav");
 
@@ -36,22 +23,6 @@ class Game
 
     public void Update()
     {
-        // Handle Input
-        Renderables.ForEach(delegate (Renderable r)
-        {
-            r.HandleInput();
-        });
-
-        // Movement
-        Renderables.ForEach(delegate (Renderable r)
-        {
-            r.Move(camera);
-        });
-
-        // Render
-        Renderables.ForEach(delegate (Renderable r)
-        {
-            r.Render(camera);
-        });
+        gameScene.Update();
     }
 }

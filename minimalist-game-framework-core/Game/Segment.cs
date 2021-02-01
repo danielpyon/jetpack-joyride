@@ -151,7 +151,7 @@ class Segment : Renderable
 
         foreach(var laser in laserTypes.Zip(laserPositions, (type, position) => (type, position)))
         {
-            this.lasers.Add(new Laser(laserTextureMap[laser.type], laser.type, laser.position));
+            this.lasers.Add(new Laser(laserTextureMap[laser.type], laser.type, laser.position, character));
         }
 
         foreach(Vector2 position in coinPositions)
