@@ -81,7 +81,7 @@ class Segment : Renderable
         return laserTypes;
     }
     
-    private static Segment LoadSegmentFromFile(float X, int segmentNumber)
+    private static Segment LoadSegmentFromFile(float X, int segmentNumber, Character character)
     {
         String filename = segmentNumber + ".xml";
         String filepath = Directory.GetCurrentDirectory() + "/Assets/segments/" + filename;
@@ -94,7 +94,7 @@ class Segment : Renderable
         List<Vector2> laserPositions = RelativeToAbsolute(GetAllPositions(lasers), X);
         List<LaserType> laserTypes = GetAllLaserTypes(lasers);
 
-        return new Segment(X, laserPositions, laserTypes, coinPositions);
+        return new Segment(X, laserPositions, laserTypes, coinPositions, character);
     }
     
     private static void Shuffle<T>(List<T> list)
@@ -118,7 +118,7 @@ class Segment : Renderable
                segment == 12;
     }
     
-    public static Segment[] GenerateSegments(float startX)
+    public static Segment[] GenerateSegments(float startX, Character character)
     {
         Segment[] segments = new Segment[13];
 
@@ -137,13 +137,13 @@ class Segment : Renderable
                 continue;
             }
 
-            segments[i] = LoadSegmentFromFile(currentX, segmentNumbers[i]);
+            segments[i] = LoadSegmentFromFile(currentX, segmentNumbers[i], character);
         }
 
         return segments;
     }
 
-    public Segment(float X, List<Vector2> laserPositions, List<LaserType> laserTypes, List<Vector2> coinPositions)
+    public Segment(float X, List<Vector2> laserPositions, List<LaserType> laserTypes, List<Vector2> coinPositions, Character character)
     {
         this.X = X;
         this.lasers = new List<Laser>();
@@ -156,7 +156,7 @@ class Segment : Renderable
 
         foreach(Vector2 position in coinPositions)
         {
-            this.coins.Add(new Coin(coinTexture, position));
+            this.coins.Add(new Coin(coinTexture, position, character));
         }
     }
 

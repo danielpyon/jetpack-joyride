@@ -45,7 +45,7 @@ class BackgroundPanel : Renderable
 
     private void AddBackground()
     {
-        Background background = new Background(filenames[backgroundIndex], backgroundX, textures[backgroundIndex]);
+        Background background = new Background(filenames[backgroundIndex], backgroundX, character, textures[backgroundIndex]);
         backgroundIndex++;
 
         float backgroundWidth = background.Width;

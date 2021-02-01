@@ -18,7 +18,7 @@ class Background : Renderable
         get;
     }
 
-    public Background(String filename, float MinX, Texture texture = null)
+    public Background(String filename, float MinX, Character character, Texture texture = null)
     {
         if (texture == null)
         {
@@ -32,7 +32,7 @@ class Background : Renderable
         this.MinX = MinX;
         this.MaxX = MinX + Width;
 
-        this.segments = Segment.GenerateSegments(MinX);
+        this.segments = Segment.GenerateSegments(MinX, character);
     }
 
     public int Height

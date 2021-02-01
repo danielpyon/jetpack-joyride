@@ -6,11 +6,13 @@ class Coin : Renderable
 {
     private Texture texture;
     private Vector2 position;
+    private Character character;
 
-    public Coin(Texture texture, Vector2 position)
+    public Coin(Texture texture, Vector2 position, Character character)
     {
         this.texture = texture;
         this.position = position;
+        this.character = character;
     }
 
     public void HandleInput()
