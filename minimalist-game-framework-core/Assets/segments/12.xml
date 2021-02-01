@@ -1,0 +1,9 @@
+<segment>
+  <coins>
+    <coin x="30" y="30"></coin>
+    <coin x="50" y="40"></coin>
+  </coins>
+  <lasers>
+    
+  </lasers>
+</segment>

@@ -5,6 +5,7 @@ using System.Text;
 class Background : Renderable
 {
     private Texture texture;
+    private Segment[] segments;
 
     // Where the right edge is on the map (horizontally)
     public float MaxX
@@ -27,9 +28,11 @@ class Background : Renderable
         {
             this.texture = texture;
         }
+        
         this.MinX = MinX;
         this.MaxX = MinX + Width;
-        this.texture = texture;
+
+        this.segments = Segment.GenerateSegments(MinX);
     }
 
     public int Height
@@ -59,9 +62,12 @@ class Background : Renderable
 
     public void Render(Camera camera)
     {
-        Vector2 position = new Vector2();
-        position.X = MinX - camera.X;
-        position.Y = 0 - camera.Y;
+        Vector2 position = new Vector2(MinX - camera.X, 0 - camera.Y);
         Engine.DrawTexture(texture, position);
+
+        foreach (Segment s in segments)
+        {
+            s.Render(camera);
+        }
     }
 }

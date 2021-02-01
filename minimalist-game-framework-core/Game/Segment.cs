@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
 using System.Linq;
+using System.IO;
 
-class Segment
+class Segment : Renderable
 {
     private float X;
 
     private List<Vector2> laserPositions;
     private List<Vector2> coinPositions;
 
+    private Texture laserTexture;
+    private Texture coinTexture;
+
     private static Random random = new Random();
 
     private static XElement GetFirstElementByTagName(XElement document, String tagName)
     {
-        return (XElement)(
-            from el in document.Elements()
-            where el.Name == tagName
-            select el);
+        return (from el in document.Elements()
+                where el.Name == tagName
+                select el).ToList()[0];
     }
     
     private static String GetAttribute(XElement e, String attribute)
@@ -41,7 +44,7 @@ class Segment
     private static Segment LoadSegmentFromFile(float X, int segmentNumber)
     {
         String filename = segmentNumber + ".xml";
-        String filepath = filename;
+        String filepath = Directory.GetCurrentDirectory() + "/Assets/segments/" + filename;
 
         XElement root = XElement.Load(filepath);
         XElement coins = GetFirstElementByTagName(root, "coins");
@@ -86,5 +89,32 @@ class Segment
         this.X = X;
         this.laserPositions = laserPositions;
         this.coinPositions = coinPositions;
+
+        laserTexture = Engine.LoadTexture("vertical.png");
+        coinTexture = Engine.LoadTexture("coin.gif");
+    }
+
+    public void HandleInput()
+    {
+    }
+
+    public void Move(Camera camera)
+    {
+    }
+
+    private Vector2 GetRelativePosition(Vector2 position, Camera camera)
+    {
+        return new Vector2(
+            position.X - camera.X,
+            position.Y - camera.Y
+        );
+    }
+
+    public void Render(Camera camera)
+    {
+        foreach (Vector2 position in coinPositions)
+        {
+            Engine.DrawTexture(coinTexture, GetRelativePosition(position, camera));
+        }
     }
 }
