@@ -22,11 +22,6 @@ class GameScene : Scene
         musicInstance = Engine.PlaySound(music, true, 4.0f);
     }
 
-    public override void Update()
-    {
-        base.Update();
-    }
-
     ~GameScene()
     {
         Engine.StopSound(musicInstance);
