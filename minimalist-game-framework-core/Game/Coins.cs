@@ -5,7 +5,7 @@ using System.Text;
 
 class Coins : Renderable
 {
-    private Texture texture = Engine.LoadTexture("coin1.png");
+    private Texture texture = Engine.LoadTexture("coin.png");
     private Coin[] coins;
 
     public Coins(int amount)

@@ -4,64 +4,58 @@ using System.Text;
 
 class TopMenu : Renderable
 {
-    // Textures and fonts
-    private Texture texturePause = Engine.LoadTexture("PauseButton.png");
-    private Texture textureScore = Engine.LoadTexture("longbuton.png");
+    private Texture pauseTexture;
     private Character character;
-    private Font Scorefont = Engine.LoadFont("Futured.TTF", pointSize: 30);
+    private Font distanceFont;
 
+    private Vector2 distancePosition;
+    private Vector2 pausePosition;
+    private Vector2 pauseSize;
 
-    // Position, size and distance fields
-    private Vector2 position;
-    private Vector2 positionPause;
-    private Vector2 positionScore;
-    private Vector2 sizeP = new Vector2(100, 100);
-    private Vector2 sizeS = new Vector2(150, 100);
-    private int dist;
+    private float characterX;
 
     public TopMenu(Character character)
     {
-        // setup character and position variables
         this.character = character;
-   
-        position = new Vector2(50, 7);
-        positionScore = new Vector2(00, -28);
-        positionPause = new Vector2(915, -30);
+        characterX = character.X;
+
+        distancePosition = new Vector2(50, 7);
+        distanceFont = Engine.LoadFont("distancefont.ttf", pointSize: 30);
+
+        pauseTexture = Engine.LoadTexture("pausebutton.png");
+        pausePosition = new Vector2(915 - 10, -30 + 5);
+        pauseSize = new Vector2(100, 100);
     }
 
     public void HandleInput()
     {
-        // grabbing distance from character
-        dist = ((int) character.X) / 20 - 7;
+        characterX = character.X;
     }
 
     public void Move(Camera camera)
     {
-        //does not move
     }
 
-    public int getDistance()
+    public int GetDistance()
     {
-        // a get method for those methods that need distance
-        return dist;
+        int pixelsPerMeter = 147;
+        return ((int) characterX) / pixelsPerMeter;
+    }
+
+    private void RenderDistance()
+    {
+        String distanceString = GetDistance().ToString() + " m";
+        Engine.DrawString(distanceString, distancePosition, Color.LightGray, distanceFont);
+    }
+
+    private void RenderPosition()
+    {
+        Engine.DrawTexture(pauseTexture, pausePosition, null, pauseSize);
     }
 
     public void Render(Camera camera)
     {
-        //Actually displaying the top menu
-
-        String distString = dist + "";
-        //Console.WriteLine(distString);
-        Engine.DrawTexture(texturePause, positionPause, null, sizeP);
-        Engine.DrawTexture(textureScore, positionScore, null, sizeS);
-
-        if (dist > 349)
-        {
-            Engine.DrawString(distString, position, Color.Chartreuse, Scorefont);
-        }
-        else if (dist > 0)
-        {
-            Engine.DrawString(distString, position, Color.Crimson, Scorefont);
-        }
+        RenderDistance();
+        RenderPosition();
     }
 }
