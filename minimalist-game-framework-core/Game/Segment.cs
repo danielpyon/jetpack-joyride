@@ -12,8 +12,8 @@ class Segment : Renderable
     private List<Vector2> laserPositions;
     private List<Vector2> coinPositions;
 
-    private Texture laserTexture;
-    private Texture coinTexture;
+    private static Texture laserTexture = Engine.LoadTexture("vertical.png");
+    private static Texture coinTexture = Engine.LoadTexture("coin.gif");
 
     private static Random random = new Random();
 
@@ -41,6 +41,23 @@ class Segment : Renderable
         return positions;
     }
 
+    private static List<Vector2> RelativeToAbsolute(List<Vector2> relativePositions, float offset)
+    {
+        List<Vector2> absolutePositions = new List<Vector2>();
+        
+        foreach (Vector2 rel in relativePositions)
+        {
+            absolutePositions.Add(
+                new Vector2(
+                    rel.X + offset,
+                    rel.Y
+                )
+            );
+        }
+
+        return absolutePositions;
+    }
+    
     private static Segment LoadSegmentFromFile(float X, int segmentNumber)
     {
         String filename = segmentNumber + ".xml";
@@ -50,8 +67,9 @@ class Segment : Renderable
         XElement coins = GetFirstElementByTagName(root, "coins");
         XElement lasers = GetFirstElementByTagName(root, "lasers");
 
-        List<Vector2> coinPositions = GetAllPositions(coins);
-        List<Vector2> laserPositions = GetAllPositions(lasers);
+        List<Vector2> coinPositions = RelativeToAbsolute(GetAllPositions(coins), X);
+        List<Vector2> laserPositions = RelativeToAbsolute(GetAllPositions(lasers), X);
+        
         return new Segment(X, laserPositions, coinPositions);
     }
     
@@ -89,9 +107,6 @@ class Segment : Renderable
         this.X = X;
         this.laserPositions = laserPositions;
         this.coinPositions = coinPositions;
-
-        laserTexture = Engine.LoadTexture("vertical.png");
-        coinTexture = Engine.LoadTexture("coin.gif");
     }
 
     public void HandleInput()
@@ -102,7 +117,7 @@ class Segment : Renderable
     {
     }
 
-    private Vector2 GetRelativePosition(Vector2 position, Camera camera)
+    private Vector2 GetCameraAdjustedPosition(Vector2 position, Camera camera)
     {
         return new Vector2(
             position.X - camera.X,
@@ -110,11 +125,12 @@ class Segment : Renderable
         );
     }
 
+    
     public void Render(Camera camera)
     {
         foreach (Vector2 position in coinPositions)
         {
-            Engine.DrawTexture(coinTexture, GetRelativePosition(position, camera));
+            Engine.DrawTexture(coinTexture, GetCameraAdjustedPosition(position, camera));
         }
     }
 }
