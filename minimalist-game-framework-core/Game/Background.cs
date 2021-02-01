@@ -50,7 +50,6 @@ class Background : Renderable
 
     public void HandleInput()
     {
-        
     }
 
     public void Move(Camera camera)
