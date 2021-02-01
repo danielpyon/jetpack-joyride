@@ -6,56 +6,43 @@ class Game
     public static readonly string Title = Globals.TITLE;
     public static readonly Vector2 Resolution = new Vector2(Globals.WIDTH, Globals.HEIGHT);
 
-    Renderable character;
-    Renderable tm;
-    Renderable backgroundPanel;
-
-    List<Renderable> Renderables;
-    
-    Camera camera;
-
-    Sound menuMusic;
-    Sound gameMusic;
+    public static Scene CurrentScene
+    {
+        get;
+        set;
+    }
 
     public Game()
     {
-        character = new Character();
-        backgroundPanel = new BackgroundPanel((Character) character);
-        
-        Renderables = new List<Renderable>();
-        Renderables.AddRange(new List<Renderable>() { backgroundPanel, character });
+        UpdateScene();
+    }
 
-        camera = new Camera(0, 0);
-        tm = new TopMenu((Character) character);
-        
-        menuMusic = Engine.LoadSound("menu.wav");
-        gameMusic = Engine.LoadSound("game.wav");
+    public static void UpdateScene()
+    {
+        if (CurrentScene != null)
+            CurrentScene.CleanUp();
 
-        Engine.PlaySound(gameMusic, true, 4.0f);
+        if (CurrentScene == null)
+        {
+            CurrentScene = new TitleScene();
+        }
+        else if (CurrentScene.GetType() == typeof(TitleScene))
+        {
+            CurrentScene = new GameScene();
+        }
+        else if (CurrentScene.GetType() == typeof(GameScene))
+        {
+            CurrentScene = new DeathScene();
+        }
+        else
+        {
+            // Death scene -> Game scene
+            CurrentScene = new GameScene();
+        }
     }
 
     public void Update()
     {
-        // Handle Input
-        Renderables.ForEach(delegate (Renderable r)
-        {
-            r.HandleInput();
-        });
-
-        // Movement
-        Renderables.ForEach(delegate (Renderable r)
-        {
-            r.Move(camera);
-        });
-
-        // Render
-        Renderables.ForEach(delegate (Renderable r)
-        {
-            r.Render(camera);
-        });
-
-        //distance
-        tm.HandleInput();
-        tm.Render(camera);
+        CurrentScene.Update();
     }
 }

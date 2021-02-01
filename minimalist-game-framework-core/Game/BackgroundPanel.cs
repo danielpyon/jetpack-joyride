@@ -4,7 +4,8 @@ using System.Text;
 
 class BackgroundPanel : Renderable
 {
-    private List<Background> backgrounds; // Background objects to be rendered (List<> retains insertion order)
+    // All the background objects that should be rendered currently
+    private List<Background> backgrounds;
 
     // Backgrounds will render in this order (this is constant)
     private String[] filenames =
@@ -21,10 +22,10 @@ class BackgroundPanel : Renderable
     // Generally, the bigger the offset, the smoother the gameplay
     private const float OFFSET = 500.0f;
 
+    // Variables for infinite scrolling 
     private Character character;
     private int backgroundIndex = 0;
     private float backgroundX = 0;
-
     private bool isEndCurrentlyVisible = false;
 
     public BackgroundPanel(Character character)
@@ -44,7 +45,7 @@ class BackgroundPanel : Renderable
 
     private void AddBackground()
     {
-        Background background = new Background(filenames[backgroundIndex], backgroundX, textures[backgroundIndex]);
+        Background background = new Background(filenames[backgroundIndex], backgroundX, character, textures[backgroundIndex]);
         backgroundIndex++;
 
         float backgroundWidth = background.Width;
@@ -143,17 +144,23 @@ class BackgroundPanel : Renderable
 
     public void HandleInput()
     {
-        
+        foreach(Background b in backgrounds)
+        {
+            b.HandleInput();
+        }
     }
 
     public void Move(Camera camera)
     {
-        
+        foreach(Background b in backgrounds)
+        {
+            b.Move(camera);
+        }
     }
 
     public void Render(Camera camera)
     {
-        bool endVisible =  IsEndVisible();
+        bool endVisible = IsEndVisible();
 
         if (endVisible && !isEndCurrentlyVisible)
         {
@@ -164,6 +171,7 @@ class BackgroundPanel : Renderable
         if (!endVisible && isEndCurrentlyVisible)
         {
             isEndCurrentlyVisible = false;
+            character.SpeedUp();
         }
 
         RemoveInvisibleBackgrounds();
