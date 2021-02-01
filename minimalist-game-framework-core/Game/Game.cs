@@ -7,7 +7,6 @@ class Game
     public static readonly Vector2 Resolution = new Vector2(Globals.WIDTH, Globals.HEIGHT);
 
     Sound menuMusic;
-    Sound gameMusic;
 
     Scene gameScene;
 
@@ -16,9 +15,6 @@ class Game
         gameScene = new GameScene();
 
         menuMusic = Engine.LoadSound("menu.wav");
-        gameMusic = Engine.LoadSound("game.wav");
-
-        Engine.PlaySound(gameMusic, true, 4.0f);
     }
 
     public void Update()

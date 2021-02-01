@@ -16,7 +16,7 @@ class Scene
     /// <summary>
     /// Update the scene: handle input and move/render all objects
     /// </summary>
-    public void Update()
+    public virtual void Update()
     {
         // Handle Input
         renderables.ForEach(delegate (Renderable r)

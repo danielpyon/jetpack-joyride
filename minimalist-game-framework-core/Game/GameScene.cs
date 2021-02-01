@@ -4,6 +4,9 @@ using System.Text;
 
 class GameScene : Scene
 {
+    private Sound music;
+    private SoundInstance musicInstance;
+
     public GameScene() : base()
     {
         Renderable character = new Character();
@@ -14,6 +17,18 @@ class GameScene : Scene
 
         Camera camera = new Camera(0, 0);
         this.camera = camera;
+
+        music = Engine.LoadSound("game.wav");
+        musicInstance = Engine.PlaySound(music, true, 4.0f);
     }
 
+    public override void Update()
+    {
+        base.Update();
+    }
+
+    ~GameScene()
+    {
+        Engine.StopSound(musicInstance);
+    }
 }
