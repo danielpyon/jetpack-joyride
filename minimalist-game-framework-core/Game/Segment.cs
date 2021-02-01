@@ -110,6 +110,14 @@ class Segment : Renderable
         }
     }
     
+    private static bool SegmentIsTunnel(int segment)
+    {
+        return segment == 0  ||
+               segment == 1  ||
+               segment == 11 ||
+               segment == 12;
+    }
+    
     public static Segment[] GenerateSegments(float startX)
     {
         Segment[] segments = new Segment[13];
@@ -120,6 +128,15 @@ class Segment : Renderable
         for (int i = 0; i < segmentNumbers.Count; i++)
         {
             float currentX = startX + 500 * i;
+
+            // Special cases:
+            // If it's the first or last two segments, don't have any lasers or coins, because it's part of the tunnel
+            if (SegmentIsTunnel(i))
+            {
+                segments[i] = new Segment(currentX);
+                continue;
+            }
+
             segments[i] = LoadSegmentFromFile(currentX, segmentNumbers[i]);
         }
 
@@ -141,6 +158,13 @@ class Segment : Renderable
         {
             this.coins.Add(new Coin(coinTexture, position));
         }
+    }
+
+    public Segment(float X)
+    {
+        this.X = X;
+        this.lasers = new List<Laser>();
+        this.coins = new List<Coin>();
     }
 
     public void HandleInput()
