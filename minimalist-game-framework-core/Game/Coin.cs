@@ -16,12 +16,27 @@ class Coin : Renderable
         this.character = character;
     }
 
+    private bool CloseEnough(float a, float b, float threshold = 0.1f)
+    {
+        return Math.Abs(a - b) <= threshold;
+    }
+
     private bool CollidingWithCharacter()
     {
         int width = texture.Width;
         int height = texture.Height;
 
-        return false;
+        (float low, float high) xRange = (position.X, position.X + width);
+        (float low, float high) yRange = (position.Y, position.Y + height);
+
+        float x = character.X - character.Width / 2;
+        float y = character.Y;
+
+        return
+            (x >= xRange.low) &&
+            (x <= xRange.high) &&
+            (y >= yRange.low) &&
+            (y <= yRange.high);
     }
 
     public void HandleInput()

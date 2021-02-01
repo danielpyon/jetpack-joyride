@@ -144,12 +144,18 @@ class BackgroundPanel : Renderable
 
     public void HandleInput()
     {
-        
+        foreach(Background b in backgrounds)
+        {
+            b.HandleInput();
+        }
     }
 
     public void Move(Camera camera)
     {
-        
+        foreach(Background b in backgrounds)
+        {
+            b.Move(camera);
+        }
     }
 
     public void Render(Camera camera)

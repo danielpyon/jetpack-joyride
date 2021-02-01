@@ -169,10 +169,28 @@ class Segment : Renderable
 
     public void HandleInput()
     {
+        foreach(Coin c in coins)
+        {
+            c.HandleInput();
+        }
+
+        foreach(Laser l in lasers)
+        {
+            l.HandleInput();
+        }
     }
 
     public void Move(Camera camera)
     {
+        foreach(Coin c in coins)
+        {
+            c.Move(camera);
+        }
+
+        foreach(Laser l in lasers)
+        {
+            l.Move(camera);
+        }
     }
 
     public void Render(Camera camera)

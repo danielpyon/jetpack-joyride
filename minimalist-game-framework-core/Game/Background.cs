@@ -53,11 +53,18 @@ class Background : Renderable
 
     public void HandleInput()
     {
+        foreach (Segment s in segments)
+        {
+            s.HandleInput();
+        }
     }
 
     public void Move(Camera camera)
     {
-
+        foreach (Segment s in segments)
+        {
+            s.Move(camera);
+        }
     }
 
     public void Render(Camera camera)
