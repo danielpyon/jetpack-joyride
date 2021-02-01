@@ -12,8 +12,18 @@ class Segment : Renderable
     private List<Coin> coins;
     private List<Laser> lasers;
 
-    private static Texture laserTexture = Engine.LoadTexture("vertical.png");
-    private static Texture coinTexture = Engine.LoadTexture("coin.gif");
+    private static Dictionary<LaserType, Texture> laserTextureMap = new Dictionary<LaserType, Texture> {
+        { LaserType.HorizontalShort, Engine.LoadTexture("horizontalshort.png") },
+        { LaserType.HorizontalLong, Engine.LoadTexture("horizontallong.png") },
+        { LaserType.VerticalShort, Engine.LoadTexture("verticalshort.png") },
+        { LaserType.VerticalLong, Engine.LoadTexture("verticallong.png") },
+        { LaserType.DiagonalDownShort, Engine.LoadTexture("diagonaldownshort.png") },
+        { LaserType.DiagonalDownLong, Engine.LoadTexture("diagonaldownlong.png") },
+        { LaserType.DiagonalUpShort, Engine.LoadTexture("diagonalupshort.png") },
+        { LaserType.DiagonalUpLong, Engine.LoadTexture("diagonaluplong.png") },
+    };
+
+    private static Texture coinTexture = Engine.LoadTexture("coin.png");
 
     private static Random random = new Random();
 
@@ -58,6 +68,19 @@ class Segment : Renderable
         return absolutePositions;
     }
     
+    private static List<LaserType> GetAllLaserTypes(XElement document)
+    {
+        List<LaserType> laserTypes = new List<LaserType>();
+
+        foreach (XElement e in document.Elements())
+        {
+            LaserType type = (LaserType)Enum.Parse(typeof(LaserType), GetAttribute(e, "type"));
+            laserTypes.Add(type);
+        }
+
+        return laserTypes;
+    }
+    
     private static Segment LoadSegmentFromFile(float X, int segmentNumber)
     {
         String filename = segmentNumber + ".xml";
@@ -69,8 +92,9 @@ class Segment : Renderable
 
         List<Vector2> coinPositions = RelativeToAbsolute(GetAllPositions(coins), X);
         List<Vector2> laserPositions = RelativeToAbsolute(GetAllPositions(lasers), X);
-        
-        return new Segment(X, laserPositions, coinPositions);
+        List<LaserType> laserTypes = GetAllLaserTypes(lasers);
+
+        return new Segment(X, laserPositions, laserTypes, coinPositions);
     }
     
     private static void Shuffle<T>(List<T> list)
@@ -102,15 +126,15 @@ class Segment : Renderable
         return segments;
     }
 
-    public Segment(float X, List<Vector2> laserPositions, List<Vector2> coinPositions)
+    public Segment(float X, List<Vector2> laserPositions, List<LaserType> laserTypes, List<Vector2> coinPositions)
     {
         this.X = X;
         this.lasers = new List<Laser>();
         this.coins = new List<Coin>();
-        
-        foreach(Vector2 position in laserPositions)
+
+        foreach(var laser in laserTypes.Zip(laserPositions, (type, position) => (type, position)))
         {
-            this.lasers.Add(new Laser(laserTexture, position));
+            this.lasers.Add(new Laser(laserTextureMap[laser.type], laser.type, laser.position));
         }
 
         foreach(Vector2 position in coinPositions)
