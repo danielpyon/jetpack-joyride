@@ -127,6 +127,8 @@ class Character : Renderable
             adjustedCoordinates.Y - camera.Y); 
         
         Engine.DrawTexture(texture, renderPosition);
+
+        Console.WriteLine(position);
     }
 
     public void IncrementCoins()
