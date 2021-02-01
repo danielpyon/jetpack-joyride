@@ -7,6 +7,7 @@ class Coin : Renderable
     private Texture texture;
     private Vector2 position;
     private Character character;
+    private bool invisible = false;
 
     public Coin(Texture texture, Vector2 position, Character character)
     {
@@ -15,9 +16,23 @@ class Coin : Renderable
         this.character = character;
     }
 
+    private bool CollidingWithCharacter()
+    {
+        int width = texture.Width;
+        int height = texture.Height;
+
+        return false;
+    }
+
     public void HandleInput()
     {
-
+        // If colliding with character, call IncrementCoins and set invisible to true (doesn't render)
+        if (CollidingWithCharacter())
+        {
+            character.IncrementCoins();
+            // Play coin sound?
+            invisible = true;
+        }
     }
 
     public void Move(Camera Camera)
@@ -35,6 +50,9 @@ class Coin : Renderable
 
     public void Render(Camera camera)
     {
-        Engine.DrawTexture(texture, GetCameraAdjustedPosition(position, camera));
+        if (!invisible)
+        {
+            Engine.DrawTexture(texture, GetCameraAdjustedPosition(position, camera));
+        }
     }
 }

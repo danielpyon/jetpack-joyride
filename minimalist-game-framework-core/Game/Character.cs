@@ -16,6 +16,9 @@ class Character : Renderable
     private Vector2 velocity = new Vector2(0, 0);
     private float acceleration = 0.0f;
 
+    // Other state
+    private int coins = 0;
+
     public Character()
     {
         position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
@@ -124,5 +127,10 @@ class Character : Renderable
             adjustedCoordinates.Y - camera.Y); 
         
         Engine.DrawTexture(texture, renderPosition);
+    }
+
+    public void IncrementCoins()
+    {
+        coins++;
     }
 }
