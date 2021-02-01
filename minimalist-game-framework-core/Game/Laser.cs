@@ -19,6 +19,13 @@ class Laser : Renderable
 
     private bool CollidingWithLaser()
     {
+        // c = character, l = laser
+        float cLeft, cRight, cBottom, cTop, lLeft, lRight, lBottom, lTop;
+
+        cLeft = character.X - character.Width / 2;
+        cRight = character.X + character.Width / 2;
+        cBottom = character.Y - character.Height / 2;
+        cTop = character.Y + character.Height / 2;
 
         return false;
     }
