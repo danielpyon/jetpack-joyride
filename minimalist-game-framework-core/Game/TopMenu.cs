@@ -8,6 +8,9 @@ class TopMenu : Renderable
     private Character character;
     private Font distanceFont;
 
+    private Font coinFont;
+    private Vector2 coinPosition;
+
     private Vector2 distancePosition;
     private Vector2 pausePosition;
     private Vector2 pauseSize;
@@ -21,6 +24,9 @@ class TopMenu : Renderable
 
         distancePosition = new Vector2(50, 7);
         distanceFont = Engine.LoadFont("distancefont.ttf", pointSize: 30);
+
+        coinFont = Engine.LoadFont("coinfont.ttf", pointSize: 30);
+        coinPosition = new Vector2(50, 50);
 
         pauseTexture = Engine.LoadTexture("pausebutton.png");
         pausePosition = new Vector2(915 - 10, -30 + 5);
@@ -48,6 +54,17 @@ class TopMenu : Renderable
         Engine.DrawString(distanceString, distancePosition, Color.LightGray, distanceFont);
     }
 
+    public int GetCoins()
+    {
+        return character.Coins;
+    }
+
+    private void RenderCoins()
+    {
+        String coinString = GetCoins().ToString() + " coins";
+        Engine.DrawString(coinString, coinPosition, Color.LightGray, coinFont);
+    }
+
     private void RenderPosition()
     {
         Engine.DrawTexture(pauseTexture, pausePosition, null, pauseSize);
@@ -56,6 +73,7 @@ class TopMenu : Renderable
     public void Render(Camera camera)
     {
         RenderDistance();
+        RenderCoins();
         RenderPosition();
     }
 }

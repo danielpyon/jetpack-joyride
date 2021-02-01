@@ -19,6 +19,14 @@ class Character : Renderable
     // Other state
     private int coins = 0;
 
+    public int Coins
+    {
+        get
+        {
+            return coins;
+        }
+    }
+
     public Character()
     {
         position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
@@ -127,8 +135,6 @@ class Character : Renderable
             adjustedCoordinates.Y - camera.Y); 
         
         Engine.DrawTexture(texture, renderPosition);
-
-        Console.WriteLine(position);
     }
 
     public void IncrementCoins()

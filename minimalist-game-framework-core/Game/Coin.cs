@@ -42,7 +42,7 @@ class Coin : Renderable
     public void HandleInput()
     {
         // If colliding with character, call IncrementCoins and set invisible to true (doesn't render)
-        if (CollidingWithCharacter())
+        if (!invisible && CollidingWithCharacter())
         {
             character.IncrementCoins();
             // Play coin sound?
