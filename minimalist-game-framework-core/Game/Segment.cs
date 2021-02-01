@@ -9,8 +9,8 @@ class Segment : Renderable
 {
     private float X;
 
-    private List<Vector2> laserPositions;
-    private List<Vector2> coinPositions;
+    private List<Coin> coins;
+    private List<Laser> lasers;
 
     private static Texture laserTexture = Engine.LoadTexture("vertical.png");
     private static Texture coinTexture = Engine.LoadTexture("coin.gif");
@@ -105,8 +105,18 @@ class Segment : Renderable
     public Segment(float X, List<Vector2> laserPositions, List<Vector2> coinPositions)
     {
         this.X = X;
-        this.laserPositions = laserPositions;
-        this.coinPositions = coinPositions;
+        this.lasers = new List<Laser>();
+        this.coins = new List<Coin>();
+        
+        foreach(Vector2 position in laserPositions)
+        {
+            this.lasers.Add(new Laser(laserTexture, position));
+        }
+
+        foreach(Vector2 position in coinPositions)
+        {
+            this.coins.Add(new Coin(coinTexture, position));
+        }
     }
 
     public void HandleInput()
@@ -117,20 +127,16 @@ class Segment : Renderable
     {
     }
 
-    private Vector2 GetCameraAdjustedPosition(Vector2 position, Camera camera)
-    {
-        return new Vector2(
-            position.X - camera.X,
-            position.Y - camera.Y
-        );
-    }
-
-    
     public void Render(Camera camera)
     {
-        foreach (Vector2 position in coinPositions)
+        foreach (Coin c in coins)
         {
-            Engine.DrawTexture(coinTexture, GetCameraAdjustedPosition(position, camera));
+            c.Render(camera);
+        }
+
+        foreach (Laser l in lasers)
+        {
+            l.Render(camera);
         }
     }
 }
