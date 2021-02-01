@@ -160,7 +160,7 @@ class BackgroundPanel : Renderable
 
     public void Render(Camera camera)
     {
-        bool endVisible =  IsEndVisible();
+        bool endVisible = IsEndVisible();
 
         if (endVisible && !isEndCurrentlyVisible)
         {
@@ -171,6 +171,7 @@ class BackgroundPanel : Renderable
         if (!endVisible && isEndCurrentlyVisible)
         {
             isEndCurrentlyVisible = false;
+            character.SpeedUp();
         }
 
         RemoveInvisibleBackgrounds();

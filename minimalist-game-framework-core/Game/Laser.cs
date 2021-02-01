@@ -27,9 +27,8 @@ class Laser : Renderable
     {
         if (CollidingWithLaser())
         {
-
+            character.Die();
         }
-        Console.WriteLine();
     }
 
     public void Move(Camera Camera)

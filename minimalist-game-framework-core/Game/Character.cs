@@ -13,11 +13,12 @@ class Character : Renderable
 
     // Position, velocity, acceleration
     private Vector2 position;
-    private Vector2 velocity = new Vector2(0, 0);
+    private Vector2 velocity = new Vector2(300.0f, 0);
     private float acceleration = 0.0f;
 
     // Other state
     private int coins = 0;
+    private bool dying = false;
 
     public int Coins
     {
@@ -30,7 +31,6 @@ class Character : Renderable
     public Character()
     {
         position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
-        Console.WriteLine("Init pos: " + position);
     }
 
     public float X
@@ -67,19 +67,26 @@ class Character : Renderable
 
     public void HandleInput()
     {
+        if (dying)
+        {
+
+        }
+
         bool leftHeld = Engine.GetKeyHeld(Key.Left);
         bool rightHeld = Engine.GetKeyHeld(Key.Right);
         bool spaceHeld = Engine.GetKeyHeld(Key.Space);
-        bool spacePressed = Engine.GetKeyDown(Key.Space);
 
         // Horizontal movement
-        if (leftHeld || rightHeld)
+        if (Globals.DEBUG)
         {
-            velocity.X = leftHeld ? -horizontalSpeed : horizontalSpeed;
-        }
-        else
-        {
-            velocity.X = 0;
+            if (leftHeld || rightHeld)
+            {
+                velocity.X = leftHeld ? -horizontalSpeed : horizontalSpeed;
+            }
+            else
+            {
+                velocity.X = 0;
+            }
         }
 
         // Vertical movement
@@ -87,7 +94,12 @@ class Character : Renderable
         {
             acceleration = gravity * 2.0f; //this felt the best for the thrust/weight ratio
         }
+    }
 
+    public void SpeedUp()
+    {
+        if (velocity.X < 1000.0f)
+            velocity.X += 80.0f;
     }
 
     public void Move(Camera camera)
@@ -114,7 +126,7 @@ class Character : Renderable
         if (position.Y < Height)
         {
             position.Y = Height;
-            velocity /= 2;
+            velocity.Y /= 2;
             acceleration = 0;
         }
 
@@ -140,5 +152,10 @@ class Character : Renderable
     public void IncrementCoins()
     {
         coins++;
+    }
+
+    public void Die()
+    {
+        dying = true;
     }
 }
