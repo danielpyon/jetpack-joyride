@@ -1,10 +1,13 @@
 <segment>
   <coins>
-    <coin x="30" y="30"></coin>
-    <coin x="50" y="40"></coin>
+    <coin x="168" y="235"></coin>
+    <coin x="200" y="182"></coin>
+    <coin x="255" y="156"></coin>
+    <coin x="313" y="149"></coin>
+    <coin x="374" y="142"></coin>
+    <coin x="435" y="143"></coin>
   </coins>
   <lasers>
-    <laser type="DiagonalDownLong" x="70" y="30"></laser>
-    <laser type="DiagonalDownShort" x="300" y="30"></laser>
+    <laser type="HorizontalLong" x="353" y="247"></laser>
   </lasers>
 </segment>
