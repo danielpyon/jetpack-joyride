@@ -40,6 +40,6 @@ class Game
 
     public void Update()
     {
-        CurrentScene().Update();
+        CurrentScene.Update();
     }
 }
