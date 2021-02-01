@@ -4,9 +4,7 @@
     <coin x="50" y="40"></coin>
   </coins>
   <lasers>
-    <laser type="VerticalLong" x="70" y="30"></laser>
-    <laser type="HorizontalLong" x="100" y="30"></laser>
-    <laser type="DiagonalUpLong" x="150" y="30"></laser>
-    <laser type="VerticalShort" x="170" y="30"></laser>
+    <laser type="DiagonalDownLong" x="70" y="30"></laser>
+    <laser type="DiagonalDownShort" x="300" y="30"></laser>
   </lasers>
 </segment>
