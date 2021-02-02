@@ -1,9 +1,32 @@
 <segment>
   <coins>
-    <coin x="30" y="30"></coin>
-    <coin x="50" y="40"></coin>
+    <coin x="250" y="110"></coin>
+    <coin x="300" y="60"></coin>
+    <coin x="300" y="160"></coin>
+    <coin x="350" y="60"></coin>
+    <coin x="350" y="160"></coin>
+    <coin x="400" y="110"></coin>
+
+    <coin x="500" y="110"></coin>
+    <coin x="550" y="60"></coin>
+    <coin x="550" y="160"></coin>
+    <coin x="600" y="60"></coin>
+    <coin x="600" y="160"></coin>
+    <coin x="650" y="110"></coin>
+
+    <coin x="300" y="300"></coin>
+    <coin x="350" y="350"></coin>
+    <coin x="400" y="400"></coin>
+    <coin x="450" y="400"></coin>
+    <coin x="500" y="400"></coin>
+    <coin x="550" y="350"></coin>
+    <coin x="600" y="300"></coin>
+
+    
   </coins>
   <lasers>
-    
+    <laser type="VerticalShort" x="-30" y="-50"></laser>
+<laser type="VerticalShort" x="730" y="250"></laser>
+<laser type="HorizontalShort" x="325" y="100"></laser>
   </lasers>
 </segment>
