@@ -98,6 +98,12 @@ class Character : Renderable
                 select el).ToList()[0];
     }
 
+    private int GetDistance()
+    {
+        int pixelsPerMeter = 147;
+        return ((int)X) / pixelsPerMeter;
+    }
+
     private void SaveState()
     {
         String filename = "state.xml";
@@ -110,21 +116,15 @@ class Character : Renderable
         XmlTextWriter writer = new XmlTextWriter(filepath, null);
         writer.WriteStartElement("state");
 
-        if (coins > currentCoins)
-        {
-            writer.WriteStartElement("coins");
-            writer.WriteAttributeString("value", coins.ToString());
-            writer.WriteFullEndElement();
-        }
+        writer.WriteStartElement("coins");
+        writer.WriteAttributeString("value", (currentCoins + coins).ToString());
+        writer.WriteFullEndElement();
 
-        int pixelsPerMeter = 147;
-        int distance = ((int)X) / pixelsPerMeter;
-        if (distance > currentDistance)
-        {
-            writer.WriteStartElement("distance");
-            writer.WriteAttributeString("value", distance.ToString());
-            writer.WriteFullEndElement();
-        }
+        int distance = GetDistance();
+        writer.WriteStartElement("distance");
+        writer.WriteAttributeString("value", distance > currentDistance? distance.ToString() : currentDistance.ToString());
+        writer.WriteFullEndElement();
+        
         writer.WriteEndElement();
         writer.Close();
     }
@@ -138,7 +138,7 @@ class Character : Renderable
             else
             {
                 SaveState();
-                Game.UpdateScene();
+                Game.UpdateScene(Coins, GetDistance());
             }
             return;
         }
