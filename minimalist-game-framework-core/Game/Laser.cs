@@ -91,12 +91,7 @@ class Laser : Renderable
     {
         if (CollidingWithLaser())
         {
-            Console.WriteLine("collide");
             character.Die();
-        }
-        else
-        {
-            Console.WriteLine("not collide");
         }
     }
 

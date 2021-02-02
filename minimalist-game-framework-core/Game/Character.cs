@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
+using System.Xml;
+using System.Linq;
+using System.IO;
 
 class Character : Renderable
 {
@@ -87,10 +91,56 @@ class Character : Renderable
         }
     }
 
+    private XElement GetFirstElementByTagName(XElement document, String tagName)
+    {
+        return (from el in document.Elements()
+                where el.Name == tagName
+                select el).ToList()[0];
+    }
+
+    private void SaveState()
+    {
+        String filename = "state.xml";
+        String filepath = Directory.GetCurrentDirectory() + "/Assets/" + filename;
+
+        XElement root = XElement.Load(filepath);
+        int currentCoins = int.Parse(GetFirstElementByTagName(root, "coins").Attribute("value").Value);
+        int currentDistance = int.Parse(GetFirstElementByTagName(root, "distance").Attribute("value").Value);
+
+        XmlTextWriter writer = new XmlTextWriter(filepath, null);
+        writer.WriteStartElement("state");
+
+        if (coins > currentCoins)
+        {
+            writer.WriteStartElement("coins");
+            writer.WriteAttributeString("value", coins.ToString());
+            writer.WriteEndElement();
+        }
+
+        int pixelsPerMeter = 147;
+        int distance = ((int)X) / pixelsPerMeter;
+        if (distance > currentDistance)
+        {
+            writer.WriteStartElement("distance");
+            writer.WriteAttributeString("value", distance.ToString());
+            writer.WriteEndElement();
+        }
+        writer.WriteEndElement();
+        root.WriteTo(writer);
+    }
+
     public void HandleInput()
     {
         if (dying)
         {
+            if (velocity.X > 0)
+                velocity.X -= 1.0f;
+            else
+            {
+                SaveState();
+                Game.UpdateScene();
+            }
+            return;
         }
 
         bool leftHeld = Engine.GetKeyHeld(Key.Left);
