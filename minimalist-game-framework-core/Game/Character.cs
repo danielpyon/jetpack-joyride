@@ -114,7 +114,7 @@ class Character : Renderable
         {
             writer.WriteStartElement("coins");
             writer.WriteAttributeString("value", coins.ToString());
-            writer.WriteEndElement();
+            writer.WriteFullEndElement();
         }
 
         int pixelsPerMeter = 147;
@@ -123,10 +123,10 @@ class Character : Renderable
         {
             writer.WriteStartElement("distance");
             writer.WriteAttributeString("value", distance.ToString());
-            writer.WriteEndElement();
+            writer.WriteFullEndElement();
         }
         writer.WriteEndElement();
-        root.WriteTo(writer);
+        writer.Close();
     }
 
     public void HandleInput()
