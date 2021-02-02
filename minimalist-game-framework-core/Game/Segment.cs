@@ -113,9 +113,7 @@ class Segment : Renderable
     private static bool SegmentIsTunnel(int segment)
     {
         return segment == 0  ||
-               segment == 1  ||
-               segment == 11 ||
-               segment == 12;
+               segment == 4;
     }
     
     public static Segment[] GenerateSegments(float startX, Character character)
