@@ -116,20 +116,15 @@ class Character : Renderable
         XmlTextWriter writer = new XmlTextWriter(filepath, null);
         writer.WriteStartElement("state");
 
-        if (coins > currentCoins)
-        {
-            writer.WriteStartElement("coins");
-            writer.WriteAttributeString("value", coins.ToString());
-            writer.WriteFullEndElement();
-        }
+        writer.WriteStartElement("coins");
+        writer.WriteAttributeString("value", (currentCoins + coins).ToString());
+        writer.WriteFullEndElement();
 
         int distance = GetDistance();
-        if (distance > currentDistance)
-        {
-            writer.WriteStartElement("distance");
-            writer.WriteAttributeString("value", distance.ToString());
-            writer.WriteFullEndElement();
-        }
+        writer.WriteStartElement("distance");
+        writer.WriteAttributeString("value", distance > currentDistance? distance.ToString() : currentDistance.ToString());
+        writer.WriteFullEndElement();
+        
         writer.WriteEndElement();
         writer.Close();
     }

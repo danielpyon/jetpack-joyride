@@ -27,7 +27,7 @@ class TitleMenu : Renderable
 
     public void Render(Camera camera)
     {
-        Engine.DrawTexture(background, new Vector2(0, 0));
+        Engine.DrawTexture(background, Vector2.Zero);
 
         Engine.DrawString("LAGS Advanced Game Studio presents", new Vector2(45, 20), Color.White, font);
         Engine.DrawString(Globals.TITLE, new Vector2(300, 80), Color.Yellow, font);
