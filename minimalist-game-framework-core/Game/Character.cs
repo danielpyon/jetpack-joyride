@@ -19,6 +19,12 @@ class Character : Renderable
     // Other state
     private int coins = 0;
     private bool dying = false;
+    
+    public Polygon Bounds
+    {
+        get;
+        set;
+    }
 
     public int Coins
     {
@@ -31,6 +37,22 @@ class Character : Renderable
     public Character()
     {
         position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
+        UpdateBounds();
+    }
+
+    private void UpdateBounds()
+    {
+        float X = position.X;
+        float Y = position.Y;
+        var bounds = new List < (float, float) >();
+        bounds.Add((X, Y));
+        bounds.Add((X, Y - Height));
+        bounds.Add((X + Width, Y - Height));
+        bounds.Add((X + Width, Y));
+        if (Bounds == null)
+            Bounds = new Polygon(bounds);
+        else
+            Bounds.UpdateVertices(bounds);
     }
 
     public float X
@@ -69,7 +91,6 @@ class Character : Renderable
     {
         if (dying)
         {
-
         }
 
         bool leftHeld = Engine.GetKeyHeld(Key.Left);
@@ -129,6 +150,8 @@ class Character : Renderable
             velocity.Y /= 2;
             acceleration = 0;
         }
+
+        UpdateBounds();
 
         camera.CenterOnCharacter(this);
     }

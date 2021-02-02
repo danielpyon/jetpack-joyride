@@ -99,10 +99,15 @@ class Polygon
         get; set;
     }
 
-    public Polygon(List<Tuple<float, float>> coordinates)
+    public void UpdateVertices(List<(float, float)> coordinates)
     {
         Vertices = new List<Vector2>();
         foreach (var x in coordinates)
             Vertices.Add(new Vector2(x.Item1, x.Item2));
+    }
+
+    public Polygon(List<(float, float)> coordinates)
+    {
+        UpdateVertices(coordinates);
     }
 }
