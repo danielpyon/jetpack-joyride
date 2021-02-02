@@ -23,20 +23,20 @@ class Coin : Renderable
 
     private bool CollidingWithCharacter()
     {
-        int width = texture.Width + 75;
-        int height = texture.Height + 75;
+        float width = texture.Width;
+        float height = texture.Height;
 
-        (float low, float high) xRange = (position.X, position.X + width);
-        (float low, float high) yRange = (position.Y, position.Y + height);
+        (float low, float high) xRangeCoin = (position.X, position.X + width);
+        (float low, float high) yRangeCoin = (position.Y - height, position.Y);
 
-        float x = character.X + character.Width / 2;
-        float y = character.Y + character.Height / 2;
+        (float low, float high) xRangeCharacter = (character.X, character.X + character.Width);
+        (float low, float high) yRangeCharacter = (character.Y - character.Height, character.Y);
 
         return
-            (x >= xRange.low) &&
-            (x <= xRange.high) &&
-            (y >= yRange.low) &&
-            (y <= yRange.high);
+            !(xRangeCoin.low > xRangeCharacter.high ||
+              xRangeCoin.high < xRangeCharacter.low ||
+              yRangeCoin.high < yRangeCharacter.low ||
+              yRangeCoin.low > yRangeCharacter.high);
     }
 
     public void HandleInput()

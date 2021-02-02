@@ -8,6 +8,6 @@
     <coin x="435" y="143"></coin>
   </coins>
   <lasers>
-    <laser type="HorizontalLong" x="353" y="247"></laser>
+    <laser type="DiagonalDownShort" x="353" y="247"></laser>
   </lasers>
 </segment>

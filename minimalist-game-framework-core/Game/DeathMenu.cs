@@ -6,6 +6,8 @@ class DeathMenu : Renderable
 {
     public void HandleInput()
     {
+        if (Engine.GetKeyHeld(Key.Space))
+            Game.UpdateScene();
     }
 
     public void Move(Camera camera)
