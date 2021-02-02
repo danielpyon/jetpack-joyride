@@ -120,14 +120,14 @@ class Segment : Renderable
     
     public static Segment[] GenerateSegments(float startX, Character character)
     {
-        Segment[] segments = new Segment[13];
+        Segment[] segments = new Segment[5];
 
-        List<int> segmentNumbers = Enumerable.Range(1, 13).ToList();
+        List<int> segmentNumbers = Enumerable.Range(1, 10).ToList();
         Shuffle(segmentNumbers);
 
-        for (int i = 0; i < segmentNumbers.Count; i++)
+        for (int i = 0; i < segmentNumbers.Count / 2; i++)
         {
-            float currentX = startX + 500 * i;
+            float currentX = startX + 1300 * i;
 
             // Special cases:
             // If it's the first or last two segments, don't have any lasers or coins, because it's part of the tunnel
