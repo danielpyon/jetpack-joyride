@@ -98,6 +98,12 @@ class Character : Renderable
                 select el).ToList()[0];
     }
 
+    private int GetDistance()
+    {
+        int pixelsPerMeter = 147;
+        return ((int)X) / pixelsPerMeter;
+    }
+
     private void SaveState()
     {
         String filename = "state.xml";
@@ -117,8 +123,7 @@ class Character : Renderable
             writer.WriteFullEndElement();
         }
 
-        int pixelsPerMeter = 147;
-        int distance = ((int)X) / pixelsPerMeter;
+        int distance = GetDistance();
         if (distance > currentDistance)
         {
             writer.WriteStartElement("distance");
@@ -138,7 +143,7 @@ class Character : Renderable
             else
             {
                 SaveState();
-                Game.UpdateScene();
+                Game.UpdateScene(Coins, GetDistance());
             }
             return;
         }

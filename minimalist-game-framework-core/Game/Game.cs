@@ -17,7 +17,7 @@ class Game
         UpdateScene();
     }
 
-    public static void UpdateScene()
+    public static void UpdateScene(int coins = -1, int distance = -1)
     {
         if (CurrentScene != null)
             CurrentScene.CleanUp();
@@ -32,7 +32,7 @@ class Game
         }
         else if (CurrentScene.GetType() == typeof(GameScene))
         {
-            CurrentScene = new DeathScene();
+            CurrentScene = new DeathScene(coins, distance);
         }
         else
         {

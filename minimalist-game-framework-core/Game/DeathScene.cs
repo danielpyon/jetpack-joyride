@@ -7,9 +7,9 @@ class DeathScene : Scene
     private Sound music;
     private SoundInstance musicInstance;
 
-    public DeathScene() : base()
+    public DeathScene(int coins, int distance) : base()
     {
-        renderables.AddRange(new List<Renderable>() { new DeathMenu() });
+        renderables.AddRange(new List<Renderable>() { new DeathMenu(coins, distance) });
 
         Camera camera = new Camera(0, 0);
         this.camera = camera;
