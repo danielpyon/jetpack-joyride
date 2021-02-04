@@ -163,7 +163,7 @@ class Character : Renderable
         // Vertical movement
         if (spaceHeld)
         {
-            acceleration = gravity * 2.0f; //this felt the best for the thrust/weight ratio
+            acceleration = gravity * 3.0f; //this felt the best for the thrust/weight ratio
         }
     }
 
