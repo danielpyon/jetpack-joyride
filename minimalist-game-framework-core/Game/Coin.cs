@@ -8,9 +8,12 @@ class Coin : Renderable
     private Vector2 position;
     private Character character;
     private bool invisible = false;
+    private Sound Cmusic;
+    private SoundInstance CmusicInstance;
 
     public Coin(Texture texture, Vector2 position, Character character)
     {
+
         this.texture = texture;
         this.position = position;
         this.character = character;
@@ -44,9 +47,15 @@ class Coin : Renderable
         // If colliding with character, call IncrementCoins and set invisible to true (doesn't render)
         if (!invisible && CollidingWithCharacter())
         {
+            Cmusic = Engine.LoadSound("CoinClct.wav");
+            //CmusicInstance = Engine.PlaySound(Cmusic, false, 5.0f);
+            //Engine.StopSound(CmusicInstance);
+            //CleanUp();
+
             character.IncrementCoins();
             // Play coin sound?
             invisible = true;
+
         }
     }
 
@@ -69,5 +78,10 @@ class Coin : Renderable
         {
             Engine.DrawTexture(texture, GetCameraAdjustedPosition(position, camera));
         }
+    }
+
+    public void CleanUp()
+    {
+        Engine.StopSound(CmusicInstance);
     }
 }
