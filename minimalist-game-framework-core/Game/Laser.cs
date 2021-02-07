@@ -9,11 +9,17 @@ class Laser : Renderable
     private LaserType type;
     private Character character;
     private Polygon bounds;
-    private SoundInstance LmusicInstance;
-    private SoundInstance DemusicInstance;
+    private SoundInstance LaserSoundInstance;
+    private SoundInstance DeathInstance;
+    private Sound LaserZAP;
+    private Sound DeathSound;
 
     public Laser(Texture texture, LaserType type, Vector2 position, Character character)
     {
+        LaserZAP = Engine.LoadSound("laser.wav");
+        DeathSound = Engine.LoadSound("DeadGrunt.wav");
+
+
         this.texture = texture;
         this.position = position;
         this.type = type;
@@ -93,16 +99,10 @@ class Laser : Renderable
     {
         if (CollidingWithLaser())
         {
-            if (!character.getDying())
+            if (!character.Dying())
             {
-                Sound Lmusic = Engine.LoadSound("laser.wav");
-                LmusicInstance = Engine.PlaySound(Lmusic, false, 1.0f);
-                Sound Demusic = Engine.LoadSound("DeadGrunt.wav");
-                DemusicInstance = Engine.PlaySound(Demusic, false, 1.0f);
-
-                Engine.StopSound(LmusicInstance);
-                Engine.StopSound(DemusicInstance);
-                //CleanUp();
+                LaserSoundInstance = Engine.PlaySound(LaserZAP, false, 1.0f);
+                DeathInstance = Engine.PlaySound(DeathSound, false, 1.0f);
             }
             character.Die();
         }
@@ -124,12 +124,5 @@ class Laser : Renderable
     public void Render(Camera camera)
     {
         Engine.DrawTexture(texture, GetCameraAdjustedPosition(position, camera));
-    }
-
-    public void CleanUp()
-    {
-        Engine.StopSound(LmusicInstance);
-        Engine.StopSound(DemusicInstance);
-        
     }
 }

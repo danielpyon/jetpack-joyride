@@ -104,9 +104,9 @@ class Character : Renderable
         return ((int)X) / pixelsPerMeter;
     }
 
-    public Boolean getDying()
+    public Boolean Dying()
     {
-        return dying == true;
+        return dying;
     }
 
     private void SaveState()
