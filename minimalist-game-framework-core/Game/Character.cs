@@ -104,6 +104,11 @@ class Character : Renderable
         return ((int)X) / pixelsPerMeter;
     }
 
+    public Boolean Dying()
+    {
+        return dying;
+    }
+
     private void SaveState()
     {
         String filename = "state.xml";
