@@ -23,52 +23,52 @@ class Laser : Renderable
         switch (this.type)
         {
             case LaserType.HorizontalLong:
-                x = position.X + 57;
-                y = position.Y + 126;
-                w = 160;
-                h = 52;
+                x = position.X + 78;
+                y = position.Y + 158;
+                w = 130;
+                h = 30;
                 points.AddRange(new List<(float, float)>() { (x, y - h), (x + w, y - h), (x + w, y), (x, y) });
                 break;
             case LaserType.HorizontalShort:
-                x = position.X + 80;
-                y = position.Y + 173;
-                w = 136;
-                h = 43;
+                x = position.X + 97;
+                y = position.Y + 157;
+                w = 103;
+                h = 24;
                 points.AddRange(new List<(float, float)>() { (x, y - h), (x + w, y - h), (x + w, y), (x, y) });
                 break;
             case LaserType.VerticalLong:
-                x = position.X + 122;
-                y = position.Y + 253;
-                w = 53;
-                h = 235;
+                x = position.X + 132;
+                y = position.Y + 220;
+                w = 20;
+                h = 160;
                 points.AddRange(new List<(float, float)>() { (x, y - h), (x + w, y - h), (x + w, y), (x, y) });
                 break;
             case LaserType.VerticalShort:
-                x = position.X + 118;
-                y = position.Y + 232;
-                w = 44;
-                h = 179;
+                x = position.X + 132;
+                y = position.Y + 212;
+                w = 23;
+                h = 105;
                 points.AddRange(new List<(float, float)>() { (x, y - h), (x + w, y - h), (x + w, y), (x, y) });
                 break;
             case LaserType.DiagonalDownLong:
                 x = position.X;
                 y = position.Y;
-                points.AddRange(new List<(float, float)>() { (x + 82, y + 87), (x + 118, y + 65), (x + 222, y + 178), (x + 193, y + 204) });
+                points.AddRange(new List<(float, float)>() { (x + 105, y + 97), (x + 121, y + 88), (x + 201, y + 173), (x + 185, y + 189) });
                 break;
             case LaserType.DiagonalDownShort:
                 x = position.X;
                 y = position.Y;
-                points.AddRange(new List<(float, float)>() { (x + 91, y + 94), (x + 125, y + 73), (x + 204, y + 161), (x + 178, y + 187) });
+                points.AddRange(new List<(float, float)>() { (x + 110, y + 104), (x + 126, y + 99), (x + 188, y + 159), (x + 172, y + 170) });
                 break;
             case LaserType.DiagonalUpLong:
                 x = position.X;
                 y = position.Y;
-                points.AddRange(new List<(float, float)>() { (x + 86, y + 170), (x + 184, y + 66), (x + 210, y + 103), (x + 114, y + 200) });
+                points.AddRange(new List<(float, float)>() { (x + 93, y + 175), (x + 183, y + 88), (x + 198, y + 98), (x + 107, y + 192) });
                 break;
             case LaserType.DiagonalUpShort:
                 x = position.X;
                 y = position.Y;
-                points.AddRange(new List<(float, float)>() { (x + 98, y + 157), (x + 180, y + 68), (x + 209, y + 100), (x + 123, y + 187) });
+                points.AddRange(new List<(float, float)>() { (x + 112, y + 159), (x + 178, y + 95), (x + 191, y + 105), (x + 123, y + 173) });
                 break;
             default:
                 x = 0;
