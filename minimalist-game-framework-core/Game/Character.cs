@@ -23,7 +23,10 @@ class Character : Renderable
     // Other state
     private int coins = 0;
     private bool dying = false;
-    
+    private bool deathSoundPlayed = false;
+    private Sound laserSound;
+    private Sound deathSound;
+
     public Polygon Bounds
     {
         get;
@@ -40,6 +43,8 @@ class Character : Renderable
 
     public Character()
     {
+        laserSound = Engine.LoadSound("laser.wav");
+        deathSound = Engine.LoadSound("death.wav");
         position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
         UpdateBounds();
     }
@@ -138,6 +143,13 @@ class Character : Renderable
     {
         if (dying)
         {
+            if(!deathSoundPlayed)
+            {
+                Engine.PlaySound(laserSound, false, 1.0f);
+                Engine.PlaySound(deathSound, false, 1.0f);
+                deathSoundPlayed = true;
+            }
+
             if (velocity.X > 0)
                 velocity.X -= 1.0f;
             else
