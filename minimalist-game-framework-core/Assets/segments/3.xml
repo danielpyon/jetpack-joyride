@@ -1,19 +1,20 @@
 <segment>
   <coins>
-    <coin x="30" y="70"></coin>
-    <coin x="90" y="120"></coin>
-    <coin x="150" y="180"></coin>
-    <coin x="210" y="240"></coin>
-    <coin x="270" y="300"></coin>
-    <coin x="770" y="70"></coin>
-    <coin x="710" y="120"></coin>
-    <coin x="650" y="180"></coin>
-    <coin x="590" y="240"></coin>
-    <coin x="530" y="300"></coin>
+    <coin x="180" y="70"></coin>
+    <coin x="240" y="120"></coin>
+    <coin x="300" y="180"></coin>
+    <coin x="360" y="240"></coin>
+    <coin x="420" y="300"></coin>
+
+    <coin x="920" y="70"></coin>
+    <coin x="860" y="120"></coin>
+    <coin x="800" y="180"></coin>
+    <coin x="740" y="240"></coin>
+    <coin x="680" y="300"></coin>
   </coins>
   <lasers>
-    <laser type="HorizontalLong" x="-50" y="280"></laser>
-    <laser type="VerticalShort" x="300" y="-50"></laser>
-    <laser type="DiagonalUpShort" x="600" y="240"></laser>
+    <laser type="HorizontalLong" x="150" y="280"></laser>
+    <laser type="VerticalShort" x="500" y="-50"></laser>
+    <laser type="DiagonalUpShort" x="800" y="240"></laser>
   </lasers>
 </segment>
