@@ -9,7 +9,7 @@ using System.IO;
 class Character : Renderable
 {
     // Texture for the character
-    private Texture texture = Engine.LoadTexture("clothings/clownRUNNER.png");
+    private Texture texture = Engine.LoadTexture("clothings/astronautRUNNER.png");
     
     // Movement constants
     private static readonly float gravity = 650.0f;
