@@ -36,7 +36,7 @@ class TitleMenu : Renderable
 
         //Engine.DrawString("LAGS Advanced Game Studio presents", new Vector2(45, 20), Color.White, font);
         //Engine.DrawString(Globals.TITLE, new Vector2(300, 80), Color.Yellow, font);
-
-        //Engine.DrawString("Press start to play...", new Vector2(250, 400), Color.White, font);
+        
+        //Engine.DrawString("Press space to play...", new Vector2(250, 400), Color.White, font);
     }
 }
