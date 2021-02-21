@@ -103,8 +103,6 @@ class Rocket : Renderable
 
     public void Render(Camera camera)
     {
-        Console.WriteLine(moving);
-
         Engine.DrawTexture(texture, position);
 
         if(!moving)
