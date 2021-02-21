@@ -13,6 +13,9 @@ class Background : Renderable
     private bool rocketsLaunched = false;
     private Rocket rocket;
 
+    private bool rainLaunched = false;
+    private Rain rain;
+
     // Where the right edge is on the map (horizontally)
     public float MaxX
     {
@@ -38,11 +41,7 @@ class Background : Renderable
         this.MinX = MinX;
         this.MaxX = MinX + Width;
 
-        this.character = character;
         this.segments = Segment.GenerateSegments(MinX, character);
-
-        Random r = new Random();
-        rocketStart = r.Next(1, segments.Length - 2);
     }
 
     public int Height
@@ -63,17 +62,29 @@ class Background : Renderable
 
     public void HandleInput()
     {
-        if (!rocketsLaunched && Segment.GetCurrentSegment(character, segments) == rocketStart)
+        int currentSegment = Segment.GetCurrentSegment(character, segments);
+
+        if (!rocketsLaunched && currentSegment == rocketStart)
         {
             // Rocket r = new Rocket(character);
             Console.WriteLine("Rockets launching!!");
             rocket = new Rocket(character);
             rocketsLaunched = true;
         }
-
         if (rocketsLaunched)
         {
             rocket.HandleInput();
+        }
+
+        if (!rainLaunched && currentSegment >= 1 && currentSegment <= 3)
+        {
+            Console.WriteLine("Acid launching!!");
+            rain = new Rain(character);
+            rainLaunched = true;
+        }
+        if (rainLaunched)
+        {
+            rain.HandleInput();
         }
 
         foreach (Segment s in segments)
@@ -93,6 +104,11 @@ class Background : Renderable
         {
             rocket.Move(camera);
         }
+
+        if (rainLaunched)
+        {
+            rain.Move(camera);
+        }
     }
 
     public void Render(Camera camera)
@@ -108,6 +124,11 @@ class Background : Renderable
         if (rocketsLaunched)
         {
             rocket.Render(camera);
+        }
+
+        if(rainLaunched)
+        {
+            rain.Render(camera);
         }
     }
 }
