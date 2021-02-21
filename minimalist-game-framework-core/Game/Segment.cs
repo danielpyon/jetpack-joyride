@@ -27,6 +27,38 @@ class Segment : Renderable
 
     private static Random random = new Random();
 
+    public int Width
+    {
+        get
+        {
+            return coinTexture.Width;
+        }
+    }
+
+    public int Height
+    {
+        get
+        {
+            return coinTexture.Height;
+        }
+    }
+
+    public static int GetCurrentSegment(Character c, Segment[] segments)
+    {
+        for (int i = 0; i < segments.Length; i++)
+        {
+            Segment s = segments[i];
+            float xMin = s.X;
+            float xMax = s.X + s.Width;
+            
+            if (xMin <= c.X && c.X <= xMax)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     private static XElement GetFirstElementByTagName(XElement document, String tagName)
     {
         return (from el in document.Elements()
