@@ -14,7 +14,7 @@ class TopMenu : Renderable
     private Vector2 distancePosition;
     private Vector2 pausePosition;
     private Vector2 pauseSize;
-
+    private bool paused = false;
     private float characterX;
 
     public TopMenu(Character character)
@@ -35,6 +35,21 @@ class TopMenu : Renderable
 
     public void HandleInput()
     {
+        /*
+        float x1 = pausePosition.X;
+        float x2 = pausePosition.X + pauseTexture.Width;
+
+        float y1 = pausePosition.Y;
+        float y2 = pausePosition.Y + pauseTexture.Height;
+
+        Vector2 mouse = Engine.MousePosition;
+
+        if (mouse.X >= x1 && mouse.X <= x2 && mouse.Y >= y1 && mouse.Y <= y2)
+        {
+            paused = true;
+        }
+        */
+
         characterX = character.X;
     }
 
