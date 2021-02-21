@@ -41,7 +41,12 @@ class Background : Renderable
         this.MinX = MinX;
         this.MaxX = MinX + Width;
 
+        this.character = character;
+
         this.segments = Segment.GenerateSegments(MinX, character);
+
+        Random r = new Random();
+        rocketStart = r.Next(1, segments.Length - 2);
     }
 
     public int Height
@@ -82,10 +87,14 @@ class Background : Renderable
             rain = new Rain(character);
             rainLaunched = true;
         }
+        
         if (rainLaunched)
         {
+            if (rain.Done())
+                rainLaunched = false;
             rain.HandleInput();
         }
+        
 
         foreach (Segment s in segments)
         {

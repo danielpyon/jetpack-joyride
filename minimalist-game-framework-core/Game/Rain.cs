@@ -10,21 +10,21 @@ class Rain : Renderable
 
     private bool moving = false;
     private float elapsed = 0.0f;
-    private float velocity = 200.0f;
-    private float acceleration = 500.0f;
+    private float velocity = 100.0f;
+    private float acceleration = 100.0f;
 
     public Rain(Character character)
     {
         this.character = character;
         this.texture = Engine.LoadTexture("acidrain.png");
-        position = new Vector2(character.X + character.Width / 2, 0 + texture.Height);
+        position = new Vector2(character.X + 700, 0);
     }
 
     public void HandleInput()
     {
         elapsed += Engine.TimeDelta;
 
-        if (elapsed >= 4.5f)
+        if (elapsed >= 1.0f)
         {
             moving = true;
         }
@@ -33,6 +33,13 @@ class Rain : Renderable
         {
             character.Die();
         }
+    }
+
+    public bool Done()
+    {
+        if (position.Y > Globals.HEIGHT)
+            return true;
+        return false;
     }
 
     private bool Colliding()
@@ -62,11 +69,11 @@ class Rain : Renderable
         {
             if (!moving)
             {
-                position.X = character.X + character.Width / 2;
+                //position.X = character.X + character.Width / 2;
             }
             else
             {
-                position.Y -= velocity * Engine.TimeDelta;
+                position.Y += velocity * Engine.TimeDelta;
                 velocity += acceleration * Engine.TimeDelta;
             }
         }
@@ -74,6 +81,6 @@ class Rain : Renderable
 
     public void Render(Camera camera)
     {
-        Engine.DrawTexture(texture, position);
+        Engine.DrawTexture(texture, new Vector2(position.X - camera.X, position.Y - camera.Y));
     }
 }
