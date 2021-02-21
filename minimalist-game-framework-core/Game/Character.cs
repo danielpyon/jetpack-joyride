@@ -41,6 +41,14 @@ class Character : Renderable
         }
     }
 
+    public Vector2 RelativePosition
+    {
+        get
+        {
+            return new Vector2(Globals.WIDTH / 6 - Width / 2, Y);
+        }
+    }
+
     public Character()
     {
         laserSound = Engine.LoadSound("laser.wav");

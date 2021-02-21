@@ -7,25 +7,49 @@ class Rocket : Renderable
     private Character character;
     private Vector2 position;
     private Texture texture;
+    private Texture warning;
+    private Vector2 warningPosition;
 
     private bool moving = false;
     private float elapsed = 0.0f;
     private float velocity = 200.0f;
     private float acceleration = 500.0f;
 
-    private Sound deathSound;
-
     // Rocket only needs to know the character
     public Rocket(Character character)
     {
         this.character = character;
-        this.texture = Engine.LoadTexture("runner.png");
-        this.deathSound = Engine.LoadSound("death.wav");
-        position = new Vector2(Globals.WIDTH - texture.Width, character.Y - character.Height);
+        this.texture = Engine.LoadTexture("Missile.png");
+        position = new Vector2(Globals.WIDTH, character.Y - character.Height);
+        this.warning = Engine.LoadTexture("ExclamationBreakSmall.png");
+        warningPosition = new Vector2(Globals.WIDTH - warning.Width, character.Y - character.Height);
     }
-    
+
     public void HandleInput()
     {
+        if (Globals.DEBUG)
+        {
+            if (Engine.GetKeyHeld(Key.A))
+                position.X -= 10.0f;
+            if (Engine.GetKeyHeld(Key.D))
+                position.X += 10.0f;
+            if (Engine.GetKeyHeld(Key.W))
+                position.Y -= 10.0f;
+            if (Engine.GetKeyHeld(Key.S))
+                position.Y += 10.0f;
+
+            if (Colliding())
+            {
+                Console.WriteLine("Colliding");
+            }
+            else
+            {
+                Console.WriteLine("Not Colliding");
+            }
+
+            return;
+        }
+
         elapsed += Engine.TimeDelta;
 
         if (elapsed >= 4.5f)
@@ -35,8 +59,6 @@ class Rocket : Renderable
 
         if (Colliding())
         {
-            Console.WriteLine("Collided");
-            Engine.PlaySound(deathSound);
             character.Die();
         }
     }
@@ -47,10 +69,13 @@ class Rocket : Renderable
         float height = texture.Height;
 
         (float low, float high) xRangeRocket = (position.X, position.X + width);
-        (float low, float high) yRangeRocket = (position.Y - height, position.Y);
+        (float low, float high) yRangeRocket = (position.Y + 30, position.Y + height - 30);
 
-        (float low, float high) xRangeCharacter = (character.X, character.X + character.Width);
-        (float low, float high) yRangeCharacter = (character.Y - character.Height, character.Y);
+
+        float characterX = character.RelativePosition.X;
+        float characterY = character.RelativePosition.Y;
+        (float low, float high) xRangeCharacter = (characterX, characterX + character.Width);
+        (float low, float high) yRangeCharacter = (characterY - character.Height, characterY);
 
         return
             !(xRangeRocket.low > xRangeCharacter.high ||
@@ -61,18 +86,28 @@ class Rocket : Renderable
 
     public void Move(Camera camera)
     {
-        if(!moving)
-            position.Y = character.Y - character.Height;
-
-        if (moving)
+        if (!Globals.DEBUG)
         {
-            position.X -= velocity * Engine.TimeDelta;
-            velocity += acceleration * Engine.TimeDelta;
+            if (!moving)
+            {
+                position.Y = character.Y - character.Height;
+                warningPosition.Y = position.Y;
+            }
+            else
+            {
+                position.X -= velocity * Engine.TimeDelta;
+                velocity += acceleration * Engine.TimeDelta;
+            }
         }
     }
 
     public void Render(Camera camera)
     {
+        Console.WriteLine(moving);
+
         Engine.DrawTexture(texture, position);
+
+        if(!moving)
+            Engine.DrawTexture(warning, warningPosition);
     }
 }
