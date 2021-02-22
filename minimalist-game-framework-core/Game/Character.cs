@@ -26,6 +26,8 @@ class Character : Renderable
     private bool deathSoundPlayed = false;
     private Sound laserSound;
     private Sound deathSound;
+    private bool isBoosting = false;
+    private float elapsed = 0.0f;
 
     public Polygon Bounds
     {
@@ -190,6 +192,32 @@ class Character : Renderable
         {
             acceleration = gravity * 3.0f; //this felt the best for the thrust/weight ratio
         }
+
+        bool boostHeld = Engine.GetKeyDown(Key.B);
+        if (boostHeld)
+        {
+            if (coins - 10 >= 0)
+            {
+                coins -= 10;
+                velocity.X = 600.0f;
+                isBoosting = true;
+            }
+        }
+
+        if (isBoosting)
+        {
+            if (elapsed >= 3.0f)
+            {
+                isBoosting = false;
+                velocity.X = 300.0f;
+            }
+
+            elapsed += Engine.TimeDelta;
+        }
+        else
+        {
+            elapsed = 0.0f;
+        }
     }
 
     public void SpeedUp()
@@ -254,6 +282,7 @@ class Character : Renderable
 
     public void Die()
     {
-        dying = true;
+        if(!isBoosting)
+            dying = true;
     }
 }
