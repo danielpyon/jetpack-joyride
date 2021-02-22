@@ -28,6 +28,7 @@ class Character : Renderable
     private Sound deathSound;
     private bool isBoosting = false;
     private float elapsed = 0.0f;
+    private float oldSpeed = 300.0f;
 
     public Polygon Bounds
     {
@@ -199,7 +200,8 @@ class Character : Renderable
             if (coins - 10 >= 0)
             {
                 coins -= 10;
-                velocity.X = 600.0f;
+                oldSpeed = velocity.X;
+                velocity.X = oldSpeed * 1.5f;
                 isBoosting = true;
             }
         }
@@ -209,7 +211,7 @@ class Character : Renderable
             if (elapsed >= 3.0f)
             {
                 isBoosting = false;
-                velocity.X = 300.0f;
+                velocity.X = oldSpeed;
             }
 
             elapsed += Engine.TimeDelta;
