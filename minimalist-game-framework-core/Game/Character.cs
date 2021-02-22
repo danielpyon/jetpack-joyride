@@ -287,18 +287,26 @@ class Character : Renderable
             adjustedCoordinates.X - camera.X,
             adjustedCoordinates.Y - camera.Y);
 
-        if (isBoosting)
+        if (dying)
+        {
+            Engine.DrawTexture(texture2, renderPosition);
+        }
+        else if (isBoosting)
         {
             boostCoord.X = renderPosition.X + 10;
             boostCoord.Y = renderPosition.Y - 10;
             Engine.DrawTexture(texture2, renderPosition);
             Engine.DrawTexture(boostTexture, boostCoord);
         }
-        if (Engine.GetKeyHeld(Key.Space))
+        else if (Engine.GetKeyHeld(Key.Space))
         {
             frameIndexAir = (frameIndexAir + Engine.TimeDelta * framerate) % 2.0f;
             Bounds2 frameBounds = new Bounds2(40 * 3 + (int)frameIndexAir * 40, 0, 40, 70);
             Engine.DrawTexture(animated, renderPosition, source: frameBounds);
+        }
+        else if (position.Y <= Globals.HEIGHT - 40)
+        {
+            Engine.DrawTexture(texture, renderPosition);
         }
         else
         {
