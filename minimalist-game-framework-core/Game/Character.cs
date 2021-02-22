@@ -28,6 +28,12 @@ class Character : Renderable
     private Sound deathSound;
     private bool isBoosting = false;
     private float elapsed = 0.0f;
+    private float oldSpeed = 300.0f;
+    private float framerate = 10.0f;
+    private float frameIndexGround = 0;
+    private float frameIndexAir = 0;
+
+    private Texture animated;
 
     //boost visual
     private Vector2 boostCoord;
@@ -61,6 +67,9 @@ class Character : Renderable
         laserSound = Engine.LoadSound("laser.wav");
         deathSound = Engine.LoadSound("death.wav");
         position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
+
+        animated = Engine.LoadTexture("charactersprites.png");
+
         UpdateBounds();
     }
 
@@ -158,7 +167,7 @@ class Character : Renderable
     {
         if (dying)
         {
-            if(!deathSoundPlayed)
+            if (!deathSoundPlayed)
             {
                 Engine.PlaySound(laserSound, false, 1.0f);
                 Engine.PlaySound(deathSound, false, 1.0f);
@@ -204,7 +213,8 @@ class Character : Renderable
             if (coins - 10 >= 0)
             {
                 coins -= 10;
-                velocity.X = 600.0f;
+                oldSpeed = velocity.X;
+                velocity.X = oldSpeed * 1.5f;
                 isBoosting = true;
             }
         }
@@ -214,7 +224,7 @@ class Character : Renderable
             if (elapsed >= 3.0f)
             {
                 isBoosting = false;
-                velocity.X = 300.0f;
+                velocity.X = oldSpeed;
             }
 
             elapsed += Engine.TimeDelta;
@@ -275,12 +285,8 @@ class Character : Renderable
         Vector2 adjustedCoordinates = AdjustedCoordinates();
         Vector2 renderPosition = new Vector2(
             adjustedCoordinates.X - camera.X,
-            adjustedCoordinates.Y - camera.Y); 
-        
-        
+            adjustedCoordinates.Y - camera.Y);
 
-
-        
         if (isBoosting)
         {
             boostCoord.X = renderPosition.X + 10;
@@ -288,9 +294,17 @@ class Character : Renderable
             Engine.DrawTexture(texture2, renderPosition);
             Engine.DrawTexture(boostTexture, boostCoord);
         }
+        if (Engine.GetKeyHeld(Key.Space))
+        {
+            frameIndexAir = (frameIndexAir + Engine.TimeDelta * framerate) % 2.0f;
+            Bounds2 frameBounds = new Bounds2(40 * 3 + (int)frameIndexAir * 40, 0, 40, 70);
+            Engine.DrawTexture(animated, renderPosition, source: frameBounds);
+        }
         else
         {
-            Engine.DrawTexture(texture, renderPosition);
+            frameIndexGround = (frameIndexGround + Engine.TimeDelta * framerate) % 3.0f;
+            Bounds2 frameBounds = new Bounds2((int)frameIndexGround * 40, 0, 40, 70);
+            Engine.DrawTexture(animated, renderPosition, source: frameBounds);
         }
     }
 
