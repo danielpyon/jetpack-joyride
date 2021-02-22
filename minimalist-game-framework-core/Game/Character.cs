@@ -35,6 +35,11 @@ class Character : Renderable
 
     private Texture animated;
 
+    //boost visual
+    private Vector2 boostCoord;
+    private Texture boostTexture = Engine.LoadTexture("boostshield.png");
+    private Texture texture2 = Engine.LoadTexture("runnerboost2.png");
+
     public Polygon Bounds
     {
         get;
@@ -282,7 +287,13 @@ class Character : Renderable
             adjustedCoordinates.X - camera.X,
             adjustedCoordinates.Y - camera.Y);
 
-
+        if (isBoosting)
+        {
+            boostCoord.X = renderPosition.X + 10;
+            boostCoord.Y = renderPosition.Y - 10;
+            Engine.DrawTexture(texture2, renderPosition);
+            Engine.DrawTexture(boostTexture, boostCoord);
+        }
         if (Engine.GetKeyHeld(Key.Space))
         {
             frameIndexAir = (frameIndexAir + Engine.TimeDelta * framerate) % 2.0f;
