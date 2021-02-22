@@ -29,6 +29,11 @@ class Character : Renderable
     private bool isBoosting = false;
     private float elapsed = 0.0f;
     private float oldSpeed = 300.0f;
+    private float framerate = 10.0f;
+    private float frameIndexGround = 0;
+    private float frameIndexAir = 0;
+
+    private Texture animated;
 
     public Polygon Bounds
     {
@@ -57,6 +62,9 @@ class Character : Renderable
         laserSound = Engine.LoadSound("laser.wav");
         deathSound = Engine.LoadSound("death.wav");
         position = new Vector2(Globals.WIDTH / 6 - Width / 2, Globals.HEIGHT);
+
+        animated = Engine.LoadTexture("charactersprites.png");
+
         UpdateBounds();
     }
 
@@ -154,7 +162,7 @@ class Character : Renderable
     {
         if (dying)
         {
-            if(!deathSoundPlayed)
+            if (!deathSoundPlayed)
             {
                 Engine.PlaySound(laserSound, false, 1.0f);
                 Engine.PlaySound(deathSound, false, 1.0f);
@@ -272,9 +280,21 @@ class Character : Renderable
         Vector2 adjustedCoordinates = AdjustedCoordinates();
         Vector2 renderPosition = new Vector2(
             adjustedCoordinates.X - camera.X,
-            adjustedCoordinates.Y - camera.Y); 
-        
-        Engine.DrawTexture(texture, renderPosition);
+            adjustedCoordinates.Y - camera.Y);
+
+
+        if (Engine.GetKeyHeld(Key.Space))
+        {
+            frameIndexAir = (frameIndexAir + Engine.TimeDelta * framerate) % 2.0f;
+            Bounds2 frameBounds = new Bounds2(40 * 3 + (int)frameIndexAir * 40, 0, 40, 70);
+            Engine.DrawTexture(animated, renderPosition, source: frameBounds);
+        }
+        else
+        {
+            frameIndexGround = (frameIndexGround + Engine.TimeDelta * framerate) % 3.0f;
+            Bounds2 frameBounds = new Bounds2((int)frameIndexGround * 40, 0, 40, 70);
+            Engine.DrawTexture(animated, renderPosition, source: frameBounds);
+        }
     }
 
     public void IncrementCoins()
