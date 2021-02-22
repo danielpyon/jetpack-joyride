@@ -29,6 +29,11 @@ class Character : Renderable
     private bool isBoosting = false;
     private float elapsed = 0.0f;
 
+    //boost visual
+    private Vector2 boostCoord;
+    private Texture boostTexture = Engine.LoadTexture("boostshield.png");
+    private Texture texture2 = Engine.LoadTexture("runnerboost2.png");
+
     public Polygon Bounds
     {
         get;
@@ -272,7 +277,21 @@ class Character : Renderable
             adjustedCoordinates.X - camera.X,
             adjustedCoordinates.Y - camera.Y); 
         
-        Engine.DrawTexture(texture, renderPosition);
+        
+
+
+        
+        if (isBoosting)
+        {
+            boostCoord.X = renderPosition.X + 10;
+            boostCoord.Y = renderPosition.Y - 10;
+            Engine.DrawTexture(texture2, renderPosition);
+            Engine.DrawTexture(boostTexture, boostCoord);
+        }
+        else
+        {
+            Engine.DrawTexture(texture, renderPosition);
+        }
     }
 
     public void IncrementCoins()
